@@ -69,6 +69,11 @@ public class GameMenuController : MonoBehaviour
     {
         Debug.Log("Human Mode selected");
         Enums.GameMode selectedGameMode = Enums.GameMode.Human;
+        if (GlobalVariables.gameMode == selectedGameMode)
+        {
+            Debug.Log("Player already in Human Mode");
+            return;
+        }
 
         // Toggle to new game mode
         UpdateGameModeToggle(selectedGameMode);
@@ -76,20 +81,19 @@ public class GameMenuController : MonoBehaviour
         // Close Game Menu
         CloseGameMenu();
 
-        if (GlobalVariables.gameMode == selectedGameMode)
-        {
-            Debug.Log("Player already in Human Mode");
-        } else
-        {
-            // Load new game mode scene
-            SceneManager.LoadScene("HumanModeScene");
-        }
+        // Load new game mode scene
+        SceneManager.LoadScene("HumanModeScene");
     }
 
     public void ToggleRedBloodCellMode()
     {
         Debug.Log("Red Blood Cell Mode selected");
         Enums.GameMode selectedGameMode = Enums.GameMode.RedBloodCell;
+        if (GlobalVariables.gameMode == selectedGameMode)
+        {
+            Debug.Log("Player already in Red Blood Cell Mode");
+            return;
+        }
 
         // Toggle to new game mode
         UpdateGameModeToggle(selectedGameMode);
@@ -97,21 +101,19 @@ public class GameMenuController : MonoBehaviour
         // Close Game Menu
         CloseGameMenu();
 
-        if (GlobalVariables.gameMode == selectedGameMode)
-        {
-            Debug.Log("Player already in Red Blood Cell Mode");
-        }
-        else
-        {
-            // Load new game mode scene
-            SceneManager.LoadScene("RedBloodCellModeScene");
-        }
+        // Load new game mode scene
+        SceneManager.LoadScene("RedBloodCellModeScene");
     }
 
     public void ToggleWhiteBloodCellMode()
     {
         Debug.Log("White Blood Cell Mode selected");
         Enums.GameMode selectedGameMode = Enums.GameMode.WhiteBloodCell;
+        if (GlobalVariables.gameMode == selectedGameMode)
+        {
+            Debug.Log("Player already in White Blood Cell Mode");
+            return;
+        }
 
         // Toggle to new game mode
         UpdateGameModeToggle(selectedGameMode);
@@ -119,15 +121,8 @@ public class GameMenuController : MonoBehaviour
         // Close Game Menu
         CloseGameMenu();
 
-        if (GlobalVariables.gameMode == selectedGameMode)
-        {
-            Debug.Log("Player already in White Blood Cell Mode");
-        }
-        else
-        {
-            // Load new game mode scene
-            SceneManager.LoadScene("WhiteBloodCellModeScene");
-        }
+        // Load new game mode scene
+        SceneManager.LoadScene("WhiteBloodCellModeScene");
     }
 
     private void UpdateGameModeToggle(Enums.GameMode gameMode)
