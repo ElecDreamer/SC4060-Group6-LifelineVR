@@ -9,4 +9,11 @@ public class Enums : MonoBehaviour
         Easy,
         Hard
     }
+
+    public enum GameMode
+    {
+        RedBloodCell,
+        WhiteBloodCell,
+        Human
+    }
 }

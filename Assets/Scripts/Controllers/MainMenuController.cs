@@ -10,7 +10,7 @@ public class MainMenuController : MonoBehaviour
         // TODO: Easy Game Configuration
         Debug.Log("Starting Easy Game");
         GlobalVariables.gameDifficulty = Enums.GameDifficulty.Easy;
-        SceneManager.LoadScene("MainScene");
+        SceneManager.LoadScene("HumanModeScene");
     }
 
     public void StartHardGameBtn()
@@ -18,6 +18,6 @@ public class MainMenuController : MonoBehaviour
         // TODO: Hard Game Configuration
         Debug.Log("Starting Hard Game");
         GlobalVariables.gameDifficulty = Enums.GameDifficulty.Hard;
-        SceneManager.LoadScene("MainScene");
+        SceneManager.LoadScene("HumanModeScene");
     }
 }
