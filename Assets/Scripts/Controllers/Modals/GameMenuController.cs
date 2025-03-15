@@ -52,17 +52,6 @@ public class GameMenuController : MonoBehaviour
     }
 
     /**
-     * Open Fridge
-     */
-    public void OpenFridgeInventory()
-    {
-        Debug.Log("Open Fridge Inventory");
-
-        // Close Game Menu
-        CloseGameMenu();
-    }
-
-    /**
      * Toggle Game Modes
      */
     public void ToggleHumanMode()
