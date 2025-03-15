@@ -17,19 +17,18 @@ public class NotificationsController : MonoBehaviour
     public TMP_Text SuccessNotificationText;
     public TMP_Text WarningNotificationText;
 
-    private readonly float NOTIFICATION_DURATION = 5f;
-
     private void Start()
     {
         ClearNotificationMessages();
     }
 
     /// <summary>
-    /// Note: Each notification type can only be displayed once at a time, with a 5s auto-disappear feature.
+    /// Note: Each notification type can only be displayed once at a time, with a default 5s auto-disappear feature.
     /// </summary>
     /// <param name="notificationType"></param>
     /// <param name="message"></param>
-    public void DisplayNotification(Enums.NotificationType notificationType, string message)
+    /// <param name="duration"></param>
+    public void DisplayNotification(Enums.NotificationType notificationType, string message, float duration = 5f)
     {
         switch (notificationType)
         {
@@ -89,12 +88,12 @@ public class NotificationsController : MonoBehaviour
                 break;
         }
 
-        StartCoroutine(AutoCloseNotification(notificationType, NOTIFICATION_DURATION)); // Auto close notification modal
+        StartCoroutine(AutoCloseNotification(notificationType, duration)); // Auto close notification modal
     }
 
     private IEnumerator AutoCloseNotification(Enums.NotificationType notificationType, float delay)
     {
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSecondsRealtime(delay);
 
         switch (notificationType)
         {
@@ -139,23 +138,38 @@ public class NotificationsController : MonoBehaviour
      */
     public void TestDisplayDefaultNotification()
     {
-        DisplayNotification(Enums.NotificationType.Default, "[Default] Hi Player! We hope you are enjoying the game so far!");
+        DisplayNotification(
+            Enums.NotificationType.Default, 
+            "[Default] Hi Player! We hope you are enjoying the game so far!",
+            5f);
     }
 
     public void TestDisplayErrorNotification()
     {
-        DisplayNotification(Enums.NotificationType.Error, "[Error] Hi Player! We hope you are enjoying the game so far!");
+        DisplayNotification(
+            Enums.NotificationType.Error, 
+            "[Error] Hi Player! We hope you are enjoying the game so far!",
+            5f);
     }
     public void TestDisplayInfoNotification()
     {
-        DisplayNotification(Enums.NotificationType.Info, "[Info] Hi Player! We hope you are enjoying the game so far!");
+        DisplayNotification(
+            Enums.NotificationType.Info, 
+            "[Info] Hi Player! We hope you are enjoying the game so far!",
+            5f);
     }
     public void TestDisplaySuccessNotification()
     {
-        DisplayNotification(Enums.NotificationType.Success, "[Success] Hi Player! We hope you are enjoying the game so far!");
+        DisplayNotification(
+            Enums.NotificationType.Success, 
+            "[Success] Hi Player! We hope you are enjoying the game so far!",
+            5f);
     }
     public void TestDisplayWarningNotification()
     {
-        DisplayNotification(Enums.NotificationType.Warning, "[Warning] Hi Player! We hope you are enjoying the game so far!");
+        DisplayNotification(
+            Enums.NotificationType.Warning, 
+            "[Warning] Hi Player! We hope you are enjoying the game so far!",
+            5f);
     }
 }
