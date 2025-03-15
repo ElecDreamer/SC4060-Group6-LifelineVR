@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class DataEntities : MonoBehaviour
+namespace DataEntities
 {
     public class BloodPack
     {
@@ -19,21 +19,21 @@ public class DataEntities : MonoBehaviour
         public BloodPack()
         {
             timeLeft = MAX_TIME_LEFT; // In seconds (4.2 mins)
-            rawTimeLeft = (float) MAX_TIME_LEFT;
+            rawTimeLeft = (float)MAX_TIME_LEFT;
             state = BloodPackState.SuperFresh;
         }
 
         public BloodPack(int timeLeft)
         {
             this.timeLeft = timeLeft;
-            rawTimeLeft = (float) timeLeft;
+            rawTimeLeft = (float)timeLeft;
             state = TimeLeftToState(timeLeft);
         }
 
         public BloodPack(BloodPackState bloodPackState)
         {
             timeLeft = StateToTimeLeft(bloodPackState);
-            rawTimeLeft = (float) timeLeft;
+            rawTimeLeft = (float)timeLeft;
             state = bloodPackState;
         }
 
@@ -44,7 +44,7 @@ public class DataEntities : MonoBehaviour
                 rawTimeLeft -= Time.deltaTime;
 
                 // Update timeLeft and state
-                timeLeft = (int) rawTimeLeft;
+                timeLeft = (int)rawTimeLeft;
                 state = TimeLeftToState(timeLeft);
             }
         }
@@ -82,10 +82,10 @@ public class DataEntities : MonoBehaviour
         {
             return timeLeft <= 0 && state == BloodPackState.Spoilt;
         }
-        
+
         public double GetTimeLeftInMinutes()
         {
-            return Math.Round(rawTimeLeft/60, 2);
+            return Math.Round(rawTimeLeft / 60, 2);
         }
 
         public double GetTimeLeftInSeconds()
@@ -113,9 +113,9 @@ public class DataEntities : MonoBehaviour
             Dictionary<BloodPackState, int> counts = new Dictionary<BloodPackState, int>();
             int countSuperFresh = 0;
             int countFresh = 0;
-            int countSlightlyStale= 0;
-            int countStale= 0;
-            int countSpoilt= 0;
+            int countSlightlyStale = 0;
+            int countStale = 0;
+            int countSpoilt = 0;
 
             foreach (BloodPack bloodPack in bloodPacks)
             {
