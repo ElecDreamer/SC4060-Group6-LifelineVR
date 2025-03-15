@@ -16,4 +16,13 @@ public class Enums : MonoBehaviour
         WhiteBloodCell,
         Human
     }
+
+    public enum NotificationType
+    {
+        Default,
+        Error,
+        Info,
+        Success,
+        Warning
+    }
 }
