@@ -19,6 +19,21 @@ public class FridgeInventoryController : MonoBehaviour
     private int numOfStaleBloodPack;
     private int numOfSpoiltBloodPack;
 
+    private NotificationsController notificationController;
+    private readonly float SUCCESS_NOTIFICATION_DURATION = 0.5f;
+    private readonly float Error_NOTIFICATION_DURATION = 1f;
+
+    private void Start()
+    {
+        // Find the NotificationsController in the scene
+        notificationController = FindObjectOfType<NotificationsController>();
+
+        if (notificationController == null)
+        {
+            Debug.LogError("NotificationsController not found! Make sure it's in the scene.");
+        }
+    }
+
     /**
      * Open Fridge
      */
@@ -54,9 +69,52 @@ public class FridgeInventoryController : MonoBehaviour
     }
 
     /**
+     * Update Read Blood Cell Levels
+     */
+    private void UpdateRedBloodCellLevels()
+    {
+        // TODO: Update Blood Cell Levels
+    }
+
+    /**
      * Consume Blood Packs
      */
-    private void RemoveBloodPack(DataEntities.BloodPack.BloodPackState selectedState)
+    private bool CheckIfBloodPackAvailable(DataEntities.BloodPack.BloodPackState selectedState)
+    {
+        bool available = false;
+        switch (selectedState)
+        {
+            case DataEntities.BloodPack.BloodPackState.SuperFresh:
+                available = numOfSuperFreshBloodPack > 0;
+                break;
+            case DataEntities.BloodPack.BloodPackState.Fresh:
+                available = numOfFreshBloodPack > 0;
+                break;
+            case DataEntities.BloodPack.BloodPackState.SlightlyStale:
+                available = numOfSlightlyStaleBloodPack > 0;
+                break;
+            case DataEntities.BloodPack.BloodPackState.Stale:
+                available = numOfStaleBloodPack > 0;
+                break;
+            case DataEntities.BloodPack.BloodPackState.Spoilt:
+                available = numOfSpoiltBloodPack > 0;
+                break;
+
+        }
+        if (!available)
+        {
+            Debug.Log($"No {selectedState} Blood Pack!");
+            notificationController.DisplayNotification(
+                Enums.NotificationType.Error,
+                $"No {selectedState} Blood Pack left!",
+                Error_NOTIFICATION_DURATION);
+            return false;
+        }
+
+        return true;
+    }
+
+    private void ConsumeBloodPack(DataEntities.BloodPack.BloodPackState selectedState)
     {
         // Find the first blood pack that matches the selected category
         List<DataEntities.BloodPack> bloodPacksOfSelectedState = GlobalVariables.bloodPacks.FindAll(bp => bp.state == selectedState);
@@ -71,74 +129,60 @@ public class FridgeInventoryController : MonoBehaviour
         // Update Counts and Display Text
         GetBloodPackCounts();
         UpdateDisplayTexts();
-    }
 
-    private void UpdateRedBloodCellLevels()
-    {
-        // TODO: Update Blood Cell Levels
+        // Update Red Bood Cell Levels
+        UpdateRedBloodCellLevels();
+
+        // Display Success Notification
+        Debug.Log($"Consumed 1x {selectedState} Blood Pack");
+        notificationController.DisplayNotification(
+            Enums.NotificationType.Success,
+            $"1x {selectedState} Blood Pack consumed",
+            SUCCESS_NOTIFICATION_DURATION);
+
     }
 
     public void ConsumeSuperFreshBloodPack()
     {
-        if (numOfSuperFreshBloodPack <= 0)
-        {
-            Debug.Log("No Super Fresh Blood Pack!");
-            return;
-        }
-        Debug.Log("Consume 1x Super Fresh Blood Pack");
-        RemoveBloodPack(DataEntities.BloodPack.BloodPackState.SuperFresh);
-        UpdateRedBloodCellLevels();
+        if (CheckIfBloodPackAvailable(DataEntities.BloodPack.BloodPackState.SuperFresh))
+            ConsumeBloodPack(DataEntities.BloodPack.BloodPackState.SuperFresh);
     }
 
     public void ConsumeFreshBloodPack()
     {
-        if (numOfFreshBloodPack <= 0)
-        {
-            Debug.Log("No Fresh Blood Pack!");
-            return;
-        }
-        Debug.Log("Consume 1x Fresh Blood Pack");
-        RemoveBloodPack(DataEntities.BloodPack.BloodPackState.Fresh);
-        UpdateRedBloodCellLevels();
+        if (CheckIfBloodPackAvailable(DataEntities.BloodPack.BloodPackState.Fresh))
+            ConsumeBloodPack(DataEntities.BloodPack.BloodPackState.Fresh);
     }
 
     public void ConsumeSlightlyStaleBloodPack()
     {
-        if (numOfSlightlyStaleBloodPack <= 0)
-        {
-            Debug.Log("No Slightly Stale Blood Pack!");
-            return;
-        }
-        Debug.Log("Consume 1x Slightly Stale Blood Pack");
-        RemoveBloodPack(DataEntities.BloodPack.BloodPackState.SlightlyStale);
-        UpdateRedBloodCellLevels();
+        if (CheckIfBloodPackAvailable(DataEntities.BloodPack.BloodPackState.SlightlyStale))
+            ConsumeBloodPack(DataEntities.BloodPack.BloodPackState.SlightlyStale);
     }
 
     public void ConsumeStaleBloodPack()
     {
-        if (numOfStaleBloodPack <= 0)
-        {
-            Debug.Log("No Stale Blood Pack!");
-            return;
-        }
-        Debug.Log("Consume 1x Stale Blood Pack");
-        RemoveBloodPack(DataEntities.BloodPack.BloodPackState.Stale);
-        UpdateRedBloodCellLevels();
+        if (CheckIfBloodPackAvailable(DataEntities.BloodPack.BloodPackState.Stale))
+            ConsumeBloodPack(DataEntities.BloodPack.BloodPackState.Stale);
     }
 
     public void DiscardAllSpoiltBloodPacks()
     {
-        if (numOfSpoiltBloodPack <= 0)
+        if (CheckIfBloodPackAvailable(DataEntities.BloodPack.BloodPackState.Spoilt))
         {
-            Debug.Log("No Spoilt Blood Pack to discard!");
-            return;
-        }
-        int removedCount = GlobalVariables.bloodPacks.RemoveAll(bp => bp.state == DataEntities.BloodPack.BloodPackState.Spoilt);
-        Debug.Log($"Discard {removedCount} Spoilt Blood Packs");
+            int removedCount = GlobalVariables.bloodPacks.RemoveAll(bp => bp.state == DataEntities.BloodPack.BloodPackState.Spoilt);
 
-        // Update Counts and Display Text
-        GetBloodPackCounts();
-        UpdateDisplayTexts();
+            // Update Counts and Display Text
+            GetBloodPackCounts();
+            UpdateDisplayTexts();
+
+            // Notification
+            Debug.Log($"Discarded {removedCount} Spoilt Blood Packs");
+            notificationController.DisplayNotification(
+                Enums.NotificationType.Success,
+                $"{removedCount}x Spoilt Blood Pack discarded",
+                SUCCESS_NOTIFICATION_DURATION);
+        }
     }
 
     /**
