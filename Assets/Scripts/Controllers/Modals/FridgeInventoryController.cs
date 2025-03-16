@@ -20,7 +20,7 @@ public class FridgeInventoryController : MonoBehaviour
     private int numOfSpoiltBloodPack;
 
     private NotificationsController notificationController;
-    private readonly float SUCCESS_NOTIFICATION_DURATION = 0.5f;
+    private readonly float SUCCESS_NOTIFICATION_DURATION = 1f;
     private readonly float Error_NOTIFICATION_DURATION = 1f;
 
     private void Start()
@@ -73,7 +73,7 @@ public class FridgeInventoryController : MonoBehaviour
      */
     private void UpdateRedBloodCellLevels()
     {
-        // TODO: Update Blood Cell Levels
+        GlobalVariables.redBloodCellLevel.IncrementLevelByAmount(amountToIncrease: DataEntities.BloodPack.AMOUNT_OF_RED_BLOOD_CELLS);
     }
 
     /**
@@ -137,7 +137,7 @@ public class FridgeInventoryController : MonoBehaviour
         Debug.Log($"Consumed 1x {selectedState} Blood Pack");
         notificationController.DisplayNotification(
             Enums.NotificationType.Success,
-            $"1x {selectedState} Blood Pack consumed",
+            $"1x {selectedState} Blood Pack consumed. {DataEntities.BloodPack.AMOUNT_OF_RED_BLOOD_CELLS} Red Blood Cells are regained!",
             SUCCESS_NOTIFICATION_DURATION);
 
     }

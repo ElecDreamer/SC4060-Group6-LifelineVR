@@ -13,6 +13,8 @@ namespace DataEntities
         private float rawTimeLeft; // Raw Time Left
         private readonly int MAX_TIME_LEFT = 252; // In seconds
 
+        public static readonly float AMOUNT_OF_RED_BLOOD_CELLS = 50f;
+
         /**
          * Constructors
          */
