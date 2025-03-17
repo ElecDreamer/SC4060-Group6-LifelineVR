@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace DataEntities
 {
+    /// <summary>
+    /// Singleton
+    /// </summary>
     public class RedBloodCellLevel: MonoBehaviour
     {
         public enum LevelStatus
@@ -15,7 +18,7 @@ namespace DataEntities
 
         public static int MAXIMUM_LEVEL = 100;
         public static int MIMUMUM_LEVEL = 0;
-        public static float level = 100f; // Maximum of 100
+        public float level = 100f; // Maximum of 100
 
         // Decrease by 0.5 for every 5 seconds
         public static float rateOfDecrement = 0.5f; 
@@ -36,15 +39,28 @@ namespace DataEntities
                 {
                     GameObject obj = new("RedBloodCellLevelManager");
                     instance = obj.AddComponent<RedBloodCellLevel>();
+                    DontDestroyOnLoad(obj); // Prevent destruction when loading a new scene
                 }
                 return instance;
             }
         }
 
-        private void Start()
+        private void Awake()
         {
-            StartCoroutine(DecreaseRedBloodCellLevelRoutine());
-            StartCoroutine(SpikeDecreaseRedBloodCellLevelRoutine());
+            if (instance == null)
+            {
+                instance = this;
+                DontDestroyOnLoad(gameObject); // Keep this GameObject alive across scenes
+                
+                // Start the coroutine
+                Debug.Log("Start Red Blood Cell Level Coroutine");
+                StartCoroutine(DecreaseRedBloodCellLevelRoutine());
+                StartCoroutine(SpikeDecreaseRedBloodCellLevelRoutine());
+            }
+            else
+            {
+                Destroy(gameObject); // Prevent duplicate managers
+            }
         }
 
         private IEnumerator DecreaseRedBloodCellLevelRoutine()
@@ -71,7 +87,7 @@ namespace DataEntities
             {
                 level -= amountToDecrease;
                 level = Mathf.Max(level, MIMUMUM_LEVEL);
-                Debug.Log($"Red Blood Cell Level decreased to: {level}");
+                // Debug.Log($"Red Blood Cell Level decreased to: {level}");
             }
         }
 

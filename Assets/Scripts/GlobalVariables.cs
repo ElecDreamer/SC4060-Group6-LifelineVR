@@ -1,33 +1,74 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GlobalVariables : MonoBehaviour
 {
-    public GameObject FridgeInventoryPanelButton;
+    public bool gameStarted;
 
-    public static Enums.GameDifficulty gameDifficulty;
-    public static Enums.GameMode gameMode;
-    public static List<DataEntities.BloodPack> bloodPacks;
-    public static DataEntities.RedBloodCellLevel redBloodCellLevel;
+    public Enums.GameDifficulty gameDifficulty;
+    public Enums.GameMode gameMode;
+    public List<DataEntities.BloodPack> bloodPacks;
+    public DataEntities.RedBloodCellLevel redBloodCellLevel;
+
+    private static GlobalVariables instance; // Singleton instance
+    public static GlobalVariables Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                GameObject obj = new("GlobalVariablesManager");
+                instance = obj.AddComponent<GlobalVariables>();
+                DontDestroyOnLoad(obj); // Prevent destruction when loading a new scene
+            }
+            return instance;
+        }
+    }
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject); // Keep this GameObject alive across scenes
+        }
+        else
+        {
+            Destroy(gameObject); // Prevent duplicate instances
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         Debug.Log("Init default GlobalVariables");
-        gameDifficulty = Enums.GameDifficulty.Easy;
-        gameMode = Enums.GameMode.Human;
-
-        // TODO: Temporary for testing (to remove)
+        gameStarted = false;
         gameDifficulty = Enums.GameDifficulty.Hard;
-        InitHardDifficultyGameConfiguration();
-        // END OF TODO
+        gameMode = Enums.GameMode.Human;
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded; // Subscribe to scene changes
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded; // Unsubscribe to avoid memory leaks
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log($"Scene Loaded: {scene.name}");
+        // You can reinitialize scene-specific UI elements if needed
     }
 
     // Update is called once per frame
     private void Update()
     {
-        if (Time.timeScale == 0) return; // Return if the game is paused
+        if (!gameStarted || Time.timeScale == 0) return; // Return if the game has not started or is paused
 
         switch (gameDifficulty)
         {
@@ -43,7 +84,7 @@ public class GlobalVariables : MonoBehaviour
     /**
      * Game Difficulty Game Configuration Initialisation
      */
-    public static void InitEasyDifficultyGameConfiguration()
+    public void InitEasyDifficultyGameConfiguration()
     {
         if (gameDifficulty != Enums.GameDifficulty.Easy)
         {
@@ -53,7 +94,7 @@ public class GlobalVariables : MonoBehaviour
         Debug.Log("Init Easy Difficulty Game Configuration");
     }
 
-    public static void InitHardDifficultyGameConfiguration()
+    public void InitHardDifficultyGameConfiguration()
     {
         if (gameDifficulty != Enums.GameDifficulty.Hard)
         {
@@ -64,9 +105,11 @@ public class GlobalVariables : MonoBehaviour
 
         // Blood Packs - Populate with some Super Fresh Blood Packs to start the game
         Debug.Log("\tInit Blood Packs");
-        bloodPacks = new List<DataEntities.BloodPack>();
-        bloodPacks.Add(new DataEntities.BloodPack(DataEntities.BloodPack.BloodPackState.SuperFresh));
-        bloodPacks.Add(new DataEntities.BloodPack(DataEntities.BloodPack.BloodPackState.SuperFresh));
+        bloodPacks = new List<DataEntities.BloodPack>
+        {
+            new DataEntities.BloodPack(DataEntities.BloodPack.BloodPackState.SuperFresh),
+            new DataEntities.BloodPack(DataEntities.BloodPack.BloodPackState.SuperFresh)
+        };
 
         // Initialize RedBloodCellLevel
         Debug.Log("\tInit RedBloodCellLevel");
@@ -84,9 +127,6 @@ public class GlobalVariables : MonoBehaviour
     private void UpdateHardDifficultyGameObjects()
     {
         UpdateEasyDifficultyGameObjects();
-
-        // Display Fridge Inventory Button
-        FridgeInventoryPanelButton.SetActive(true);
 
         // Update Blood Pack time and state
         foreach (DataEntities.BloodPack bloodPack in bloodPacks)

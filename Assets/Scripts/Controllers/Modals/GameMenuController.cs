@@ -28,8 +28,8 @@ public class GameMenuController : MonoBehaviour
         Time.timeScale = 0; // Pause game time
 
         // Set variables values
-        GameDifficultyText.SetText(GlobalVariables.gameDifficulty.ToString());
-        UpdateGameModeToggle(GlobalVariables.gameMode);
+        GameDifficultyText.SetText(GlobalVariables.Instance.gameDifficulty.ToString());
+        UpdateGameModeToggle(GlobalVariables.Instance.gameMode);
 
         // Show Game Menu
         GameMenuPanel.SetActive(true);
@@ -58,7 +58,7 @@ public class GameMenuController : MonoBehaviour
     {
         Debug.Log("Human Mode selected");
         Enums.GameMode selectedGameMode = Enums.GameMode.Human;
-        if (GlobalVariables.gameMode == selectedGameMode)
+        if (GlobalVariables.Instance.gameMode == selectedGameMode)
         {
             Debug.Log("Player already in Human Mode");
             return;
@@ -78,7 +78,7 @@ public class GameMenuController : MonoBehaviour
     {
         Debug.Log("Red Blood Cell Mode selected");
         Enums.GameMode selectedGameMode = Enums.GameMode.RedBloodCell;
-        if (GlobalVariables.gameMode == selectedGameMode)
+        if (GlobalVariables.Instance.gameMode == selectedGameMode)
         {
             Debug.Log("Player already in Red Blood Cell Mode");
             return;
@@ -98,7 +98,7 @@ public class GameMenuController : MonoBehaviour
     {
         Debug.Log("White Blood Cell Mode selected");
         Enums.GameMode selectedGameMode = Enums.GameMode.WhiteBloodCell;
-        if (GlobalVariables.gameMode == selectedGameMode)
+        if (GlobalVariables.Instance.gameMode == selectedGameMode)
         {
             Debug.Log("Player already in White Blood Cell Mode");
             return;
@@ -116,7 +116,7 @@ public class GameMenuController : MonoBehaviour
 
     private void UpdateGameModeToggle(Enums.GameMode gameMode)
     {
-        GlobalVariables.gameMode = gameMode;
+        GlobalVariables.Instance.gameMode = gameMode;
         switch (gameMode)
         {
             case Enums.GameMode.Human:

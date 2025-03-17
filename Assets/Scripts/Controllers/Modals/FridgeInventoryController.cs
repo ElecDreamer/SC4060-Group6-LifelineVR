@@ -73,7 +73,7 @@ public class FridgeInventoryController : MonoBehaviour
      */
     private void UpdateRedBloodCellLevels()
     {
-        GlobalVariables.redBloodCellLevel.IncrementLevelByAmount(amountToIncrease: DataEntities.BloodPack.AMOUNT_OF_RED_BLOOD_CELLS);
+        GlobalVariables.Instance.redBloodCellLevel.IncrementLevelByAmount(amountToIncrease: DataEntities.BloodPack.AMOUNT_OF_RED_BLOOD_CELLS);
     }
 
     /**
@@ -117,14 +117,14 @@ public class FridgeInventoryController : MonoBehaviour
     private void ConsumeBloodPack(DataEntities.BloodPack.BloodPackState selectedState)
     {
         // Find the first blood pack that matches the selected category
-        List<DataEntities.BloodPack> bloodPacksOfSelectedState = GlobalVariables.bloodPacks.FindAll(bp => bp.state == selectedState);
+        List<DataEntities.BloodPack> bloodPacksOfSelectedState = GlobalVariables.Instance.bloodPacks.FindAll(bp => bp.state == selectedState);
 
         // Sort the blood packs by time (Least time first)
         bloodPacksOfSelectedState.Sort((a, b) => a.timeLeft.CompareTo(b.timeLeft));
 
         DataEntities.BloodPack bloodPackToRemove = bloodPacksOfSelectedState[0];
 
-        GlobalVariables.bloodPacks.Remove(bloodPackToRemove);
+        GlobalVariables.Instance.bloodPacks.Remove(bloodPackToRemove);
 
         // Update Counts and Display Text
         GetBloodPackCounts();
@@ -170,7 +170,7 @@ public class FridgeInventoryController : MonoBehaviour
     {
         if (CheckIfBloodPackAvailable(DataEntities.BloodPack.BloodPackState.Spoilt))
         {
-            int removedCount = GlobalVariables.bloodPacks.RemoveAll(bp => bp.state == DataEntities.BloodPack.BloodPackState.Spoilt);
+            int removedCount = GlobalVariables.Instance.bloodPacks.RemoveAll(bp => bp.state == DataEntities.BloodPack.BloodPackState.Spoilt);
 
             // Update Counts and Display Text
             GetBloodPackCounts();
@@ -202,7 +202,7 @@ public class FridgeInventoryController : MonoBehaviour
      */
     private void GetBloodPackCounts()
     {
-        Dictionary<DataEntities.BloodPack.BloodPackState, int> counts = DataEntities.BloodPack.CalculateNumberOfBloodPacksOfEachState(GlobalVariables.bloodPacks);
+        Dictionary<DataEntities.BloodPack.BloodPackState, int> counts = DataEntities.BloodPack.CalculateNumberOfBloodPacksOfEachState(GlobalVariables.Instance.bloodPacks);
         numOfSuperFreshBloodPack = counts[DataEntities.BloodPack.BloodPackState.SuperFresh];
         numOfFreshBloodPack = counts[DataEntities.BloodPack.BloodPackState.Fresh];
         numOfSlightlyStaleBloodPack = counts[DataEntities.BloodPack.BloodPackState.SlightlyStale];

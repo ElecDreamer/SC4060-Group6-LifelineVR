@@ -48,6 +48,7 @@ namespace DataEntities
                 // Update timeLeft and state
                 timeLeft = (int)rawTimeLeft;
                 state = TimeLeftToState(timeLeft);
+                // Debug.Log("BloodPack timLleft: " + timeLeft);
             }
         }
         private BloodPackState TimeLeftToState(int timeLeft)
