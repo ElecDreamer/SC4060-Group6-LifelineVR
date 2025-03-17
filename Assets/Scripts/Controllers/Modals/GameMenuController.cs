@@ -10,7 +10,6 @@ public class GameMenuController : MonoBehaviour
     public GameObject GameMenuPanel;
     public TMP_Text GameDifficultyText;
     public Toggle RedBloodCellModeToggle;
-    public Toggle WhiteBloodCellModeToggle;
     public Toggle HumanModeToggle;
 
     /**
@@ -94,26 +93,6 @@ public class GameMenuController : MonoBehaviour
         SceneManager.LoadScene("RedBloodCellModeScene");
     }
 
-    public void ToggleWhiteBloodCellMode()
-    {
-        Debug.Log("White Blood Cell Mode selected");
-        Enums.GameMode selectedGameMode = Enums.GameMode.WhiteBloodCell;
-        if (GlobalVariables.Instance.gameMode == selectedGameMode)
-        {
-            Debug.Log("Player already in White Blood Cell Mode");
-            return;
-        }
-
-        // Toggle to new game mode
-        UpdateGameModeToggle(selectedGameMode);
-
-        // Close Game Menu
-        CloseGameMenu();
-
-        // Load new game mode scene
-        SceneManager.LoadScene("WhiteBloodCellModeScene");
-    }
-
     private void UpdateGameModeToggle(Enums.GameMode gameMode)
     {
         GlobalVariables.Instance.gameMode = gameMode;
@@ -122,17 +101,10 @@ public class GameMenuController : MonoBehaviour
             case Enums.GameMode.Human:
                 HumanModeToggle.SetIsOnWithoutNotify(true);
                 RedBloodCellModeToggle.SetIsOnWithoutNotify(false);
-                WhiteBloodCellModeToggle.SetIsOnWithoutNotify(false);
                 break;
             case Enums.GameMode.RedBloodCell:
                 HumanModeToggle.SetIsOnWithoutNotify(false);
                 RedBloodCellModeToggle.SetIsOnWithoutNotify(true);
-                WhiteBloodCellModeToggle.SetIsOnWithoutNotify(false);
-                break;
-            case Enums.GameMode.WhiteBloodCell:
-                HumanModeToggle.SetIsOnWithoutNotify(false);
-                RedBloodCellModeToggle.SetIsOnWithoutNotify(false);
-                WhiteBloodCellModeToggle.SetIsOnWithoutNotify(true);
                 break;
         }
     }

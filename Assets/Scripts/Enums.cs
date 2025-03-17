@@ -13,7 +13,6 @@ public class Enums : MonoBehaviour
     public enum GameMode
     {
         RedBloodCell,
-        WhiteBloodCell,
         Human
     }
 
