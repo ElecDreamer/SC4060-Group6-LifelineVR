@@ -12,6 +12,14 @@ public class GlobalVariables : MonoBehaviour
     public List<DataEntities.BloodPack> bloodPacks;
     public DataEntities.RedBloodCellLevel redBloodCellLevel;
 
+    // Oxygen-related body parts
+    public DataEntities.Arms arms;
+    public DataEntities.Legs legs;
+    public DataEntities.Brain brain;
+
+    /**
+     * Skeleton Instance
+     */
     private static GlobalVariables instance; // Singleton instance
     public static GlobalVariables Instance
     {
@@ -45,7 +53,7 @@ public class GlobalVariables : MonoBehaviour
     {
         Debug.Log("Init default GlobalVariables");
         gameStarted = false;
-        gameDifficulty = Enums.GameDifficulty.Hard;
+        gameDifficulty = Enums.GameDifficulty.Easy;
         gameMode = Enums.GameMode.Human;
     }
 
@@ -91,6 +99,10 @@ public class GlobalVariables : MonoBehaviour
             Debug.LogError("[Init] Game Difficulty is not set to 'Easy'!");
             return;
         }
+        
+        // Common Game Configuration
+        InitCommonGameConfiguration();
+
         Debug.Log("Init Easy Difficulty Game Configuration");
     }
 
@@ -101,6 +113,10 @@ public class GlobalVariables : MonoBehaviour
             Debug.LogError("[Init] Game Difficulty is not set to 'Hard'!");
             return;
         }
+
+        // Common Game Configuration
+        InitCommonGameConfiguration();
+
         Debug.Log("Init Hard Difficulty Game Configuration");
 
         // Blood Packs - Populate with some Super Fresh Blood Packs to start the game
@@ -114,6 +130,17 @@ public class GlobalVariables : MonoBehaviour
         // Initialize RedBloodCellLevel
         Debug.Log("\tInit RedBloodCellLevel");
         redBloodCellLevel = DataEntities.RedBloodCellLevel.Instance;
+    }
+
+    private void InitCommonGameConfiguration()
+    {
+        Debug.Log("Init Common Game Configuration");
+
+        // Initialize Body Parts
+        Debug.Log("\tInit Arms, Legs, and Brain");
+        arms = DataEntities.Arms.Instance;
+        legs = DataEntities.Legs.Instance;
+        brain = DataEntities.Brain.Instance;
     }
 
     /**
