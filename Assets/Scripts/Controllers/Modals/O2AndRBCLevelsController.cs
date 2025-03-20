@@ -15,6 +15,8 @@ public class O2AndRBCLevelsController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!GlobalVariables.Instance.gameStarted) return;
+
         if (GlobalVariables.Instance.gameDifficulty == Enums.GameDifficulty.Hard)
         {
             GetCurrentFillRBCLevel();

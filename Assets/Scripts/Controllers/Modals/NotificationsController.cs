@@ -5,6 +5,7 @@ using TMPro;
 
 public class NotificationsController : MonoBehaviour
 {
+    // Base Templates
     public GameObject DefaultNotificationPanel;
     public GameObject ErrorNotificationPanel;
     public GameObject InfoNotificationPanel;
@@ -16,6 +17,17 @@ public class NotificationsController : MonoBehaviour
     public TMP_Text InfoNotificationText;
     public TMP_Text SuccessNotificationText;
     public TMP_Text WarningNotificationText;
+
+    // O2 and RBC levels Related Notifications
+    public GameObject WarningRBCLevelNotificationPanel;
+    public GameObject WarningArmsO2NotificationPanel;
+    public GameObject WarningLegsO2NotificationPanel;
+    public GameObject WarningBrainO2NotificationPanel;
+
+    public TMP_Text WarningRBCLevelNotificationText;
+    public TMP_Text WarningArmsO2NotificationText;
+    public TMP_Text WarningLegsO2NotificationText;
+    public TMP_Text WarningBrainO2NotificationText;
 
     private void Start()
     {
@@ -75,7 +87,7 @@ public class NotificationsController : MonoBehaviour
                     return;
                 }
                 WarningNotificationText.SetText(message);
-                DefaultNotificationPanel.SetActive(true);
+                WarningNotificationPanel.SetActive(true);
                 break;
             default:
                 if (DefaultNotificationPanel.activeSelf == true)
@@ -84,7 +96,7 @@ public class NotificationsController : MonoBehaviour
                     return;
                 }
                 DefaultNotificationText.SetText(message);
-                WarningNotificationPanel.SetActive(true);
+                DefaultNotificationPanel.SetActive(true);
                 break;
         }
 
@@ -115,13 +127,21 @@ public class NotificationsController : MonoBehaviour
                 break;
             case Enums.NotificationType.Warning:
                 WarningNotificationText.SetText("");
-                DefaultNotificationPanel.SetActive(false);
+                WarningNotificationPanel.SetActive(false);
                 break;
             default:
                 DefaultNotificationText.SetText("");
-                WarningNotificationPanel.SetActive(false);
+                DefaultNotificationPanel.SetActive(false);
                 break;
         }
+    }
+
+    private IEnumerator AutoCloseNotification(GameObject notificationPanel, TMP_Text notificationText, float delay)
+    {
+        yield return new WaitForSecondsRealtime(delay);
+
+        notificationText.SetText("");
+        notificationPanel.SetActive(false);
     }
 
     private void ClearNotificationMessages()
@@ -131,7 +151,68 @@ public class NotificationsController : MonoBehaviour
         InfoNotificationText.SetText("");
         SuccessNotificationText.SetText("");
         WarningNotificationText.SetText("");
+
+        WarningRBCLevelNotificationText.SetText("");
+        WarningArmsO2NotificationText.SetText("");
+        WarningLegsO2NotificationText.SetText("");
+        WarningBrainO2NotificationText.SetText("");
     }
+
+    /**
+     * O2 and RBC Levels Notification
+     */
+    public void DisplayRBCLevelWarningNotification(string message, float duration = 2f)
+    {
+        if (WarningRBCLevelNotificationPanel.activeSelf == true)
+        {
+            Debug.LogWarning("RBC Level Warning Notification already sent. Please wait till the previous notification to disappear...");
+            return;
+        }
+        WarningRBCLevelNotificationText.SetText(message);
+        WarningRBCLevelNotificationPanel.SetActive(true);
+
+        StartCoroutine(AutoCloseNotification(WarningRBCLevelNotificationPanel, WarningRBCLevelNotificationText, duration)); // Auto close notification modal
+    }
+
+    public void DisplayArmsO2LevelWarningNotification(string message, float duration = 2f)
+    {
+        if (WarningArmsO2NotificationPanel.activeSelf == true)
+        {
+            Debug.LogWarning("Arms O2 Level Warning Notification already sent. Please wait till the previous notification to disappear...");
+            return;
+        }
+        WarningArmsO2NotificationText.SetText(message);
+        WarningArmsO2NotificationPanel.SetActive(true);
+
+        StartCoroutine(AutoCloseNotification(WarningArmsO2NotificationPanel, WarningArmsO2NotificationText, duration)); // Auto close notification modal
+    }
+
+    public void DisplayLegsO2LevelWarningNotification(string message, float duration = 2f)
+    {
+        if (WarningLegsO2NotificationPanel.activeSelf == true)
+        {
+            Debug.LogWarning("Legs O2 Level Warning Notification already sent. Please wait till the previous notification to disappear...");
+            return;
+        }
+        WarningLegsO2NotificationText.SetText(message);
+        WarningLegsO2NotificationPanel.SetActive(true);
+
+        StartCoroutine(AutoCloseNotification(WarningLegsO2NotificationPanel, WarningLegsO2NotificationText, duration)); // Auto close notification modal
+    }
+
+    public void DisplayBrainO2LevelWarningNotification(string message, float duration = 2f)
+    {
+        if (WarningBrainO2NotificationPanel.activeSelf == true)
+        {
+            Debug.LogWarning("Brain O2 Level Warning Notification already sent. Please wait till the previous notification to disappear...");
+            return;
+        }
+        WarningBrainO2NotificationText.SetText(message);
+        WarningBrainO2NotificationPanel.SetActive(true);
+
+        StartCoroutine(AutoCloseNotification(WarningBrainO2NotificationPanel, WarningBrainO2NotificationText, duration)); // Auto close notification modal
+    }
+
 
     /**
      * For testing
