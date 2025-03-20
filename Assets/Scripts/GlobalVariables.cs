@@ -16,6 +16,7 @@ public class GlobalVariables : MonoBehaviour
     public DataEntities.Arms arms;
     public DataEntities.Legs legs;
     public DataEntities.Brain brain;
+    public DataEntities.OxygenPlayerStorage oxygenPlayerStorage;
 
     /**
      * Skeleton Instance
@@ -141,6 +142,10 @@ public class GlobalVariables : MonoBehaviour
         arms = DataEntities.Arms.Instance;
         legs = DataEntities.Legs.Instance;
         brain = DataEntities.Brain.Instance;
+
+        // Initialize Oxygen Player Storage
+        Debug.Log("\tInit Oxygen Player Storage");
+        oxygenPlayerStorage = DataEntities.OxygenPlayerStorage.Instance;
     }
 
     /**
