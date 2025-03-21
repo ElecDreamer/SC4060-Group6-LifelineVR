@@ -10,6 +10,9 @@ public class MetaQuest3ButtonsProvider: MonoBehaviour
     public InputActionReference leftButtonXAction;
     public InputActionReference leftButtonYAction;
 
+    public InputActionReference rightSelectAction;
+    public InputActionReference leftSelectAction;
+
     private GameMenuController gameMenuController;
     private FridgeInventoryController fridgeInventoryController;
     private QuestHandControllersMenuController questHandControllersMenuController;
@@ -28,6 +31,11 @@ public class MetaQuest3ButtonsProvider: MonoBehaviour
 
         leftButtonYAction.action.started += LeftButtonYWasPressed;
         leftButtonYAction.action.canceled += LeftButtonYWasReleased;
+
+        rightSelectAction.action.started += RightSelectActionWasPressed;
+        rightSelectAction.action.canceled += RightSelectActionWasReleased;
+        leftSelectAction.action.started += LeftSelectActionWasPressed;
+        leftSelectAction.action.canceled += LeftSelectActionWasReleased;
 
         // Find the Controllers in the scene
         fridgeInventoryController = FindObjectOfType<FridgeInventoryController>();
@@ -147,6 +155,32 @@ public class MetaQuest3ButtonsProvider: MonoBehaviour
     void LeftButtonYWasReleased(InputAction.CallbackContext context)
     {
         Debug.Log("Left Button Y released");
+    }
+
+    /**
+     * Right Select Action
+     */
+    void RightSelectActionWasPressed(InputAction.CallbackContext context)
+    {
+        Debug.Log("Right Select Action pressed");
+    }
+
+    void RightSelectActionWasReleased(InputAction.CallbackContext context)
+    {
+        Debug.Log("Right Select Action released");
+    }
+
+    /**
+     * Left Select Action
+     */
+    void LeftSelectActionWasPressed(InputAction.CallbackContext context)
+    {
+        Debug.Log("Right Select Action pressed");
+    }
+
+    void LeftSelectActionWasReleased(InputAction.CallbackContext context)
+    {
+        Debug.Log("Right Select Action released");
     }
 
 }

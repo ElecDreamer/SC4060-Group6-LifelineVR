@@ -4878,6 +4878,8 @@ MonoBehaviour:
   rightButtonBAction: {fileID: 4794779107975089532, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   leftButtonXAction: {fileID: 3003668512453475177, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   leftButtonYAction: {fileID: -8266873663308678797, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  rightSelectAction: {fileID: -1758520528963094988, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  leftSelectAction: {fileID: 6558622148059887818, guid: c348712bda248c246b8c49b3db54643f, type: 3}
 --- !u!1 &6937712976037953841
 GameObject:
   m_ObjectHideFlags: 0
