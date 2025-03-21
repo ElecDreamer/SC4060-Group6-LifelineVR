@@ -34,7 +34,7 @@ public class QuestHandControllersMenuController : MonoBehaviour
         }
 
         Debug.Log("Quest Hand Controllers Menu Opened");
-        Time.timeScale = 0; // Pause game time
+        //Time.timeScale = 0; // Pause game time
 
         SelectMenuToDisplay();
         QuestControllerMenuContainerPanel.SetActive(true);
@@ -44,6 +44,6 @@ public class QuestHandControllersMenuController : MonoBehaviour
     {
         Debug.Log("Quest Hand Controllers Menu Closed");
         QuestControllerMenuContainerPanel.SetActive(false);
-        Time.timeScale = 1; // Resume game time
+        //Time.timeScale = 1; // Resume game time
     }
 }

@@ -46,7 +46,7 @@ public class FridgeInventoryController : MonoBehaviour
         }
 
         Debug.Log("Fridge Inventory Opened");
-        Time.timeScale = 0; // Pause game time
+        //Time.timeScale = 0; // Pause game time
 
         // Get Blood Pack counts
         GetBloodPackCounts();
@@ -65,7 +65,7 @@ public class FridgeInventoryController : MonoBehaviour
     {
         Debug.Log("Fridge Inventory Closed");
         FridgeInventoryPanel.SetActive(false);
-        Time.timeScale = 1; // Resume game time
+        //Time.timeScale = 1; // Resume game time
     }
 
     /**

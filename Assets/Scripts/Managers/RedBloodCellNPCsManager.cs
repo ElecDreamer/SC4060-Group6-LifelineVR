@@ -10,7 +10,7 @@ public class RedBloodCellNPCsManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        currentRedBloodCellLevel = GlobalVariables.Instance.redBloodCellLevel.level;
+        currentRedBloodCellLevel = DataEntities.RedBloodCellLevel.MAXIMUM_LEVEL;
     }
 
     // Update is called once per frame
@@ -34,6 +34,6 @@ public class RedBloodCellNPCsManager : MonoBehaviour
     public void UpdateRedBloodCellsNPCsGameUI()
     {
         // TODO: Update Game UI for RBC NPCs. If RBC falls belows a level, show less RBCs in the bloodstream
-        DataEntities.RedBloodCellNPC redBloodCellNPC = new();
+        // DataEntities.RedBloodCellNPC redBloodCellNPC = new();
     }
 }

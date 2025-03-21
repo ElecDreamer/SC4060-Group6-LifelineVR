@@ -24,7 +24,7 @@ public class GameMenuController : MonoBehaviour
         }
 
         Debug.Log("GameMenu Opened");
-        Time.timeScale = 0; // Pause game time
+        //Time.timeScale = 0; // Pause game time
 
         // Set variables values
         GameDifficultyText.SetText(GlobalVariables.Instance.gameDifficulty.ToString());
@@ -38,7 +38,7 @@ public class GameMenuController : MonoBehaviour
     {
         Debug.Log("GameMenu Closed");
         GameMenuPanel.SetActive(false);
-        Time.timeScale = 1; // Resume game time
+        //Time.timeScale = 1; // Resume game time
     }
 
     /**

@@ -53,8 +53,6 @@ public class GlobalVariables : MonoBehaviour
     void Start()
     {
         Debug.Log("Init default GlobalVariables");
-        gameStarted = false;
-        gameDifficulty = Enums.GameDifficulty.Easy;
         gameMode = Enums.GameMode.Human;
     }
 
