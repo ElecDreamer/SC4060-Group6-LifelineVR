@@ -10,12 +10,15 @@ public class RedBloodCellNPCsManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (GlobalVariables.Instance.gameDifficulty != Enums.GameDifficulty.Hard) return;
         currentRedBloodCellLevel = DataEntities.RedBloodCellLevel.MAXIMUM_LEVEL;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (GlobalVariables.Instance.gameDifficulty != Enums.GameDifficulty.Hard) return;
+
         float newRedBloodCellLevel = GlobalVariables.Instance.redBloodCellLevel.level;
         if (currentRedBloodCellLevel != newRedBloodCellLevel)
         {
