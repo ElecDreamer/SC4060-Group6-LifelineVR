@@ -92,3 +92,16 @@ MonoBehaviour:
   pullAcceleration: 2.5
   maxSpeed: 10
   radius: 1.68
+--- !u!114 &6737405323194999719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3207986796090407560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 633bb21a35116444dafe1c96e6092f82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  angularAcceleration: 1
