@@ -114,6 +114,26 @@ public class FridgeInventoryController : MonoBehaviour
         return true;
     }
 
+    /**
+     * Add Blood Pack to Inventory
+     */
+    public void AddBloodPack()
+    {
+        DataEntities.BloodPack newBloodPack = new DataEntities.BloodPack();
+
+        GlobalVariables.Instance.bloodPacks.Add(newBloodPack);
+
+        // Update Counts and Display Text
+        GetBloodPackCounts();
+        UpdateDisplayTexts();
+
+        Debug.Log("Added 1x SuperFresh Blood Pack");
+        notificationController.DisplayNotification(
+            Enums.NotificationType.Success,
+            $"1x SuperFresh Blood Pack added.",
+            SUCCESS_NOTIFICATION_DURATION);
+    }
+
     private void ConsumeBloodPack(DataEntities.BloodPack.BloodPackState selectedState)
     {
         // Find the first blood pack that matches the selected category
