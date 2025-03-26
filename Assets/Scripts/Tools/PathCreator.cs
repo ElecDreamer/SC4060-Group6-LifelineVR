@@ -7,20 +7,25 @@ public class PathCreator : MonoBehaviour
 {
     public Transform rootQuad;
     public Transform endQuad;
-    public string pathPrefabPath;
+    public string splitPathPrefabPath;
+    public string mergeBPathPrefabPath;
+    public string mergeCPathPrefabPath;
     public float angle;
+
+    public enum PathType
+    {
+        Split,
+        MergeB,
+        MergeC
+    }
+
+    public PathType selectedPathType;
 
     [HideInInspector]
     public PathCreator createdInstance;
 
-    // private void OnDrawGizmos()
-    // {
-    //     if (rootQuad != null && endQuad != null)
-    //     {
-    //         Gizmos.color = Color.green;
-    //         Gizmos.DrawLine(rootQuad.transform.position, endQuad.transform.position);
-    //     }
-    // }
+    public PathSegment rootSegment;
+    public PathSegment endSegment;
 }
 
 [CustomEditor(typeof(PathCreator))]
@@ -32,9 +37,18 @@ public class PathCreatorEditor : Editor
 
         GameObject pathPrefab = null;
 
-        if (!string.IsNullOrEmpty(pathCreator.pathPrefabPath))
+        // Display dropdown for selecting path type
+        pathCreator.selectedPathType = (PathCreator.PathType)EditorGUILayout.EnumPopup(
+            "Path Type",
+            pathCreator.selectedPathType
+        );
+
+        // Determine which prefab path to use based on the selected path type
+        string selectedPathPrefabPath = GetSelectedPathPrefabPath(pathCreator);
+
+        if (!string.IsNullOrEmpty(selectedPathPrefabPath))
         {
-            pathPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(pathCreator.pathPrefabPath);
+            pathPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(selectedPathPrefabPath);
             if (pathPrefab == null)
             {
                 EditorGUILayout.HelpBox(
@@ -72,6 +86,7 @@ public class PathCreatorEditor : Editor
                     .GetComponent<PathCreator>();
 
                 SetRotationAndPosition();
+                ConnectPathSegments();
             }
             else
             {
@@ -98,6 +113,21 @@ public class PathCreatorEditor : Editor
             {
                 Debug.LogWarning("No created instance to confirm.");
             }
+        }
+    }
+
+    private string GetSelectedPathPrefabPath(PathCreator pathCreator)
+    {
+        switch (pathCreator.selectedPathType)
+        {
+            case PathCreator.PathType.Split:
+                return pathCreator.splitPathPrefabPath;
+            case PathCreator.PathType.MergeB:
+                return pathCreator.mergeBPathPrefabPath;
+            case PathCreator.PathType.MergeC:
+                return pathCreator.mergeCPathPrefabPath;
+            default:
+                return null;
         }
     }
 
@@ -137,6 +167,34 @@ public class PathCreatorEditor : Editor
         else
         {
             Debug.LogWarning("CreatedInstance or EndQuad is not assigned.");
+        }
+    }
+
+    private void ConnectPathSegments()
+    {
+        PathCreator pathCreator = (PathCreator)target;
+
+        if (pathCreator.createdInstance != null)
+        {
+            PathSegment endSegment = pathCreator.endSegment;
+            PathSegment rootSegment = pathCreator.createdInstance.rootSegment;
+
+            if (endSegment != null && rootSegment != null)
+            {
+                var nextSegmentsList = new System.Collections.Generic.List<PathSegment>(endSegment.nextSegments);
+                nextSegmentsList.RemoveAll(segment => segment == null);
+                nextSegmentsList.Add(rootSegment);
+                endSegment.nextSegments = nextSegmentsList.ToArray();
+                EditorUtility.SetDirty(endSegment);
+            }
+            else
+            {
+                Debug.LogWarning("EndSegment or RootSegment is not assigned.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("CreatedInstance is not assigned.");
         }
     }
 }
