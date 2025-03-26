@@ -55,5 +55,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pipe
       objectReference: {fileID: 0}
+    - target: {fileID: 5670781097540460888, guid: 69ae1cee54a1959478d4ac9c27f3304e, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7432275558397799991, guid: 69ae1cee54a1959478d4ac9c27f3304e, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8199543827206751744, guid: 69ae1cee54a1959478d4ac9c27f3304e, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 69ae1cee54a1959478d4ac9c27f3304e, type: 3}
