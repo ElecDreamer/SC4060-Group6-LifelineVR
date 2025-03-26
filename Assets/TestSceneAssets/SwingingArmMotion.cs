@@ -51,7 +51,7 @@ public class SwingingArmMotion : MonoBehaviour
         // aggregate to get hand speed
         HandSpeed = ((leftHandDistanceMoved - playerDistanceMoved) + (rightHandDistanceMoved - playerDistanceMoved));
 
-        if(Time.timeSinceLevelLoad > 1f)
+        if(Time.timeSinceLevelLoad > 1f && (HandSpeed >= 0.75 || HandSpeed <= -0.75))
         {
             transform.position += ForwardDirection.transform.forward * HandSpeed * Speed * Time.deltaTime;
         }
