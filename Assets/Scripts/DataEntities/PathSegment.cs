@@ -1,5 +1,4 @@
 using UnityEngine;
-
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -10,18 +9,24 @@ public class PathSegment : MonoBehaviour
     public float distance = 10;
     public PathSegment[] nextSegments;
 
+    private VirtualTransformShifter virtualTransformShifter;
+
+    public void Awake()
+    {
+        virtualTransformShifter = FindObjectOfType<VirtualTransformShifter>();
+    }
+
     public void Update()
     {
         DebugExtension.DrawCylinder(
             transform.position,
             Quaternion.LookRotation(transform.forward),
-            distance,
-            radius,
+            distance * virtualTransformShifter.InverseScale,
+            radius * virtualTransformShifter.InverseScale,
             Color.green
         );
     }
 }
-
 
 #if UNITY_EDITOR
 [CustomEditor(typeof(PathSegment))]
@@ -35,7 +40,9 @@ public class PathSegmentEditor : Editor
         if (GUILayout.Button("Reverse Path Segment"))
         {
             Undo.RecordObject(pathSegment.transform, "Reverse Path Segment");
-            pathSegment.transform.rotation = Quaternion.LookRotation(-pathSegment.transform.forward);
+            pathSegment.transform.rotation = Quaternion.LookRotation(
+                -pathSegment.transform.forward
+            );
             pathSegment.transform.position -= pathSegment.transform.forward * pathSegment.distance;
         }
     }

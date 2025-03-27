@@ -12,10 +12,12 @@ public class PathFollower : MonoBehaviour
 
     private Vector3 velocity;
     private VirtualTransform virtualTransform;
+    private VirtualTransformShifter virtualTransformShifter;
 
     public void Awake()
     {
         virtualTransform = GetComponent<VirtualTransform>();
+        virtualTransformShifter = GetComponent<VirtualTransformShifter>();
     }
 
     public void FixedUpdate()
@@ -165,6 +167,9 @@ public class PathFollower : MonoBehaviour
     public void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, radius);
+        Gizmos.DrawWireSphere(
+            transform.position,
+            radius * (virtualTransformShifter ? virtualTransformShifter.InverseScale : 1)
+        );
     }
 }

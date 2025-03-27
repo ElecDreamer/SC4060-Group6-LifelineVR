@@ -6,6 +6,11 @@ public class VirtualTransformShifter : MonoBehaviour
     public VirtualCamera cameraTransform;
     private List<VirtualTransform> virtualTransforms;
 
+    public float InverseScale
+    {
+        get { return 1 / cameraTransform.scale; }
+    }
+
     public void Start()
     {
         virtualTransforms = new List<VirtualTransform>(FindObjectsOfType<VirtualTransform>());
