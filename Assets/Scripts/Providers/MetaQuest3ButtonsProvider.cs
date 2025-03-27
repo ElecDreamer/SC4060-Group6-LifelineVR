@@ -16,6 +16,7 @@ public class MetaQuest3ButtonsProvider: MonoBehaviour
     private GameMenuController gameMenuController;
     private FridgeInventoryController fridgeInventoryController;
     private QuestHandControllersMenuController questHandControllersMenuController;
+    private O2AndRBCLevelsController o2AndRBCLevelsController;
 
     // Start is called before the first frame update
     void Start()
@@ -49,6 +50,10 @@ public class MetaQuest3ButtonsProvider: MonoBehaviour
         questHandControllersMenuController = FindObjectOfType<QuestHandControllersMenuController>();
         if (questHandControllersMenuController == null)
             Debug.LogError("QuestHandControllersMenuController not found! Make sure it's in the scene.");
+
+        o2AndRBCLevelsController = FindObjectOfType<O2AndRBCLevelsController>();
+        if (o2AndRBCLevelsController == null)
+            Debug.LogError("O2AndRBCLevelsController not found! Make sure it's in the scene.");
 
     }
 
@@ -93,7 +98,21 @@ public class MetaQuest3ButtonsProvider: MonoBehaviour
     void RightButtonBWasPressed(InputAction.CallbackContext context)
     {
         Debug.Log("Right Button B pressed");
-        Debug.Log("No action");
+
+        if (GlobalVariables.Instance.gameDifficulty != Enums.GameDifficulty.Hard) return;
+
+        if (!o2AndRBCLevelsController.O2AndRBCLevelsBarPanel.activeSelf)
+        {
+            Debug.Log("Open Fridge");
+            o2AndRBCLevelsController.Display();
+            
+            // Note: Don't need to close other menus
+        }
+        else
+        {
+            Debug.Log("Close Fridge");
+            o2AndRBCLevelsController.Hide();
+        }
     }
 
     void RightButtonBWasReleased(InputAction.CallbackContext context)

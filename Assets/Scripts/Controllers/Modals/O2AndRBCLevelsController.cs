@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class O2AndRBCLevelsController : MonoBehaviour
 {
-    public GameObject RBCLevelBarPanel;
+    public GameObject O2AndRBCLevelsBarPanel;
 
     public Image maskRBCLevel;
     public Image maskArmsO2Level;
@@ -51,5 +51,25 @@ public class O2AndRBCLevelsController : MonoBehaviour
         maximum = DataEntities.Brain.MAXIMUM_OXYGEN_LEVEL;
         fillAmount = current / maximum;
         maskBrainO2Level.fillAmount = fillAmount;
+    }
+    public void Display()
+    {
+        if (O2AndRBCLevelsBarPanel.activeSelf == true)
+        {
+            Debug.Log("O2 And RBC Levels Menu is already opened");
+            return;
+        }
+
+        Debug.Log("O2 And RBC Levels Menu Opened");
+        //Time.timeScale = 0; // Pause game time
+
+        O2AndRBCLevelsBarPanel.SetActive(true);
+    }
+
+    public void Hide()
+    {
+        Debug.Log("O2 And RBC Levels Menu Closed");
+        O2AndRBCLevelsBarPanel.SetActive(false);
+        //Time.timeScale = 1; // Resume game time
     }
 }
