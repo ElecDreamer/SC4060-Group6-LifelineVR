@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PathFollower : MonoBehaviour
 {
@@ -10,6 +11,12 @@ public class PathFollower : MonoBehaviour
     public float radius = 0.9f;
 
     private Vector3 velocity;
+    private VirtualTransform virtualTransform;
+
+    public void Awake()
+    {
+        virtualTransform = GetComponent<VirtualTransform>();
+    }
 
     public void FixedUpdate()
     {
@@ -35,28 +42,31 @@ public class PathFollower : MonoBehaviour
 
     private void PushTowardsEndOfPathSegment()
     {
-        ApplyAcceleration(currentPathSegment.transform.forward, pushAcceleration);
+        ApplyAcceleration(
+            currentPathSegment.GetComponent<VirtualTransform>().Forward,
+            pushAcceleration
+        );
     }
 
     private void PullTowardsMiddleOfPathSegment()
     {
         Vector3 closestPoint = GetClosestPointOnPathCenterLine();
-        Vector3 direction = closestPoint - transform.position;
+        Vector3 direction = closestPoint - virtualTransform.position;
         ApplyAcceleration(direction, pullAcceleration);
     }
 
     private Vector3 GetClosestPointOnPathCenterLine()
     {
         return CalculateClosestPointOnPath(
-            currentPathSegment.transform.position,
-            transform.position - currentPathSegment.transform.position
+            currentPathSegment.GetComponent<VirtualTransform>().position,
+            virtualTransform.position - currentPathSegment.GetComponent<VirtualTransform>().position
         );
     }
 
     private void DisallowGoingOutSidePathSegment()
     {
-        Vector3 pathCenter = currentPathSegment.transform.position;
-        Vector3 toPosition = transform.position - pathCenter;
+        Vector3 pathCenter = currentPathSegment.GetComponent<VirtualTransform>().position;
+        Vector3 toPosition = virtualTransform.position - pathCenter;
 
         Vector3 closestPointOnPath = CalculateClosestPointOnPath(pathCenter, toPosition);
         Vector3 radialOffset = CalculateRadialOffset(closestPointOnPath);
@@ -71,7 +81,7 @@ public class PathFollower : MonoBehaviour
 
     private Vector3 CalculateRadialOffset(Vector3 closestPointOnPath)
     {
-        return transform.position - closestPointOnPath;
+        return virtualTransform.position - closestPointOnPath;
     }
 
     private float CalculateEffectiveRadius()
@@ -95,7 +105,7 @@ public class PathFollower : MonoBehaviour
 
     private Vector3 CalculateClosestPointOnPath(Vector3 pathCenter, Vector3 toPosition)
     {
-        Vector3 pathDirection = currentPathSegment.transform.forward;
+        Vector3 pathDirection = currentPathSegment.GetComponent<VirtualTransform>().Forward;
         Vector3 projection = Vector3.Project(toPosition, pathDirection);
         return pathCenter + projection;
     }
@@ -112,7 +122,7 @@ public class PathFollower : MonoBehaviour
 
     private void ApplyVelocity()
     {
-        transform.position += velocity * Time.fixedDeltaTime;
+        virtualTransform.position += velocity * Time.fixedDeltaTime;
     }
 
     private void HandleConnectivity()
@@ -126,10 +136,10 @@ public class PathFollower : MonoBehaviour
     private bool IsBeyondPathEnd()
     {
         Vector3 pathEndPosition = CalculatePathEndPosition();
-        Vector3 pathEndPositionToFollowerVector = transform.position - pathEndPosition;
+        Vector3 pathEndPositionToFollowerVector = virtualTransform.position - pathEndPosition;
         float dotProduct = Vector3.Dot(
             pathEndPositionToFollowerVector,
-            currentPathSegment.transform.forward
+            currentPathSegment.GetComponent<VirtualTransform>().Forward
         );
 
         return dotProduct > 0;
@@ -137,8 +147,9 @@ public class PathFollower : MonoBehaviour
 
     private Vector3 CalculatePathEndPosition()
     {
-        return currentPathSegment.transform.position
-            + currentPathSegment.transform.forward * currentPathSegment.distance;
+        return currentPathSegment.GetComponent<VirtualTransform>().position
+            + currentPathSegment.GetComponent<VirtualTransform>().Forward
+                * currentPathSegment.distance;
     }
 
     private void SwitchToNextPathSegment()

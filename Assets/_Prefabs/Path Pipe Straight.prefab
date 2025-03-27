@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 602551129}
   - component: {fileID: 602551130}
+  - component: {fileID: 4311767024992539265}
   m_Layer: 0
   m_Name: Path Segment
   m_TagString: Untagged
@@ -48,6 +49,21 @@ MonoBehaviour:
   distance: 66.3
   nextSegments:
   - {fileID: 0}
+--- !u!114 &4311767024992539265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 602551128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 776c008c03185433c8b7647b5ebb90f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  position: {x: 0, y: 0, z: 0}
+  rotation: {x: 0, y: 0, z: 0, w: 0}
+  scale: {x: 0, y: 0, z: 0}
 --- !u!1001 &7495666776801422730
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -122,3 +138,23 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 917896126737394579, guid: f8ee3f65e6339844696e087c659433ef, type: 3}
   m_PrefabInstance: {fileID: 7495666776801422730}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8066826804547148963 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 573880221671092521, guid: f8ee3f65e6339844696e087c659433ef, type: 3}
+  m_PrefabInstance: {fileID: 7495666776801422730}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7857851709490973174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8066826804547148963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 776c008c03185433c8b7647b5ebb90f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  position: {x: 0, y: 0, z: 0}
+  rotation: {x: 0, y: 0, z: 0, w: 0}
+  scale: {x: 0, y: 0, z: 0}

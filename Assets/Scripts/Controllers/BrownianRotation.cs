@@ -4,6 +4,12 @@ public class BrownianRotation : MonoBehaviour
 {
     public float angularAcceleration = 1.0f;
     private Quaternion angularVelocity = Quaternion.identity;
+    private VirtualTransform virtualTransform;
+
+    public void Awake()
+    {
+        virtualTransform = GetComponent<VirtualTransform>();
+    }
 
     public void FixedUpdate()
     {
@@ -28,9 +34,9 @@ public class BrownianRotation : MonoBehaviour
 
     private void ApplyRotation()
     {
-        transform.rotation = Quaternion.Slerp(
-            transform.rotation,
-            transform.rotation * angularVelocity,
+        virtualTransform.rotation = Quaternion.Slerp(
+            virtualTransform.rotation,
+            virtualTransform.rotation * angularVelocity,
             Time.fixedDeltaTime
         );
     }

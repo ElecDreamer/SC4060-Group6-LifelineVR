@@ -53,7 +53,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4445066748271952557, guid: 8ca2343922f081340bd4c82e92068d55, type: 3}
       propertyPath: m_Name
-      value: White Blood Cell
+      value: White Blood Cell NPC
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8ca2343922f081340bd4c82e92068d55, type: 3}
@@ -62,6 +62,19 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4445066748271952557, guid: 8ca2343922f081340bd4c82e92068d55, type: 3}
   m_PrefabInstance: {fileID: 8614888707606733044}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7109603494732940756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5349773927105880665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 633bb21a35116444dafe1c96e6092f82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  angularAcceleration: 1
 --- !u!114 &9009320399049004707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80,7 +93,7 @@ MonoBehaviour:
   pullAcceleration: 2.5
   maxSpeed: 15
   radius: 1.2
---- !u!114 &7109603494732940756
+--- !u!114 &7668106571989218761
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -89,7 +102,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 5349773927105880665}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 633bb21a35116444dafe1c96e6092f82, type: 3}
+  m_Script: {fileID: 11500000, guid: 776c008c03185433c8b7647b5ebb90f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  angularAcceleration: 1
+  position: {x: 0, y: 0, z: 0}
+  rotation: {x: 0, y: 0, z: 0, w: 0}
+  scale: {x: 0, y: 0, z: 0}
