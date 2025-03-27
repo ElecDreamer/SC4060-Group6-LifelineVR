@@ -32,6 +32,8 @@ public class SwingingArmMotion : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!GlobalVariables.Instance.canRun) return;
+
         // get forward direction from the center eye camera and set it to the forward direction object
         float yRotation = MainCamera.transform.eulerAngles.y;
         ForwardDirection.transform.eulerAngles = new Vector3(0, yRotation, 0);

@@ -17,7 +17,7 @@ namespace DataEntities
 
         // Decrease by 1 (default) for every 5 seconds
         public readonly float DEFAULT_OXYGEN_RATE_OF_DEMAND = 1f;
-        public readonly float PULLUP_OXYGEN_RATE_OF_DEMAND = 5f;
+        public readonly float LIFTING_OXYGEN_RATE_OF_DEMAND = 5f;
         private readonly float timeBetweenDecrement = 5f; // in seconds
 
         void Start()
@@ -95,10 +95,10 @@ namespace DataEntities
         }
 
         // Increases/decreases the oxygen rate of demand
-        public void ToggleToPullupOxygenDemand()
+        public void ToggleToLiftingOxygenDemand()
         {
-            Debug.Log("[Arms] Pullup Oxygen Demand triggered");
-            oxygenRateofDemand = PULLUP_OXYGEN_RATE_OF_DEMAND;
+            Debug.Log("[Arms] Lifting Oxygen Demand triggered");
+            oxygenRateofDemand = LIFTING_OXYGEN_RATE_OF_DEMAND;
         }
 
         public void ToggleToDefaultOxygenDemand()

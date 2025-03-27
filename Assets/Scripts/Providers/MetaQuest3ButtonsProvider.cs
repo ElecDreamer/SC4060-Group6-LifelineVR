@@ -175,12 +175,12 @@ public class MetaQuest3ButtonsProvider: MonoBehaviour
      */
     void LeftSelectActionWasPressed(InputAction.CallbackContext context)
     {
-        Debug.Log("Right Select Action pressed");
+        Debug.Log("Left Select Action pressed");
     }
 
     void LeftSelectActionWasReleased(InputAction.CallbackContext context)
     {
-        Debug.Log("Right Select Action released");
+        Debug.Log("Left Select Action released");
     }
 
 }

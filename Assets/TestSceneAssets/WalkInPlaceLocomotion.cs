@@ -21,6 +21,8 @@ public class WalkInPlaceLocomotion : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!GlobalVariables.Instance.canRun) return;
+
         Vector3 leftHandVelocity = leftHand.transform.position - previousPosLeft;
         Vector3 rightHandVelocity = rightHand.transform.position - previousPosRight;
         float totalVelocity = +leftHandVelocity.magnitude * 0.8f + rightHandVelocity.magnitude * 0.8f;
