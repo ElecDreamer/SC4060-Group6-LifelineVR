@@ -20,11 +20,18 @@ namespace DataEntities
         public readonly float RUNNING_OXYGEN_RATE_OF_DEMAND = 5f;
         private readonly float timeBetweenDecrement = 5f; // in seconds
 
+        private RedBloodCellNPCsManager redBloodCellNPCsManager;
+
         void Start()
         {
             Debug.Log("Init Legs");
             oxygenLevel = 100f;
             oxygenRateofDemand = DEFAULT_OXYGEN_RATE_OF_DEMAND;
+
+            // Find the Controllers in the scene
+            redBloodCellNPCsManager = FindObjectOfType<RedBloodCellNPCsManager>();
+            if (redBloodCellNPCsManager == null)
+                Debug.LogError("RedBloodCellNPCsManager not found! Make sure it's in the scene.");
         }
 
         /**
@@ -56,6 +63,7 @@ namespace DataEntities
                 // Start the coroutine
                 Debug.Log("Start Legs Oxygen Coroutine");
                 StartCoroutine(DecreaseOxygenLevelRoutine());
+                StartCoroutine(IncreaseOxygenLevelRoutine());
             }
             else
             {
@@ -71,6 +79,16 @@ namespace DataEntities
             {
                 yield return new WaitForSeconds(timeBetweenDecrement);
                 DecrementOxygenLevelByAmount(amountToDecrease: oxygenRateofDemand);
+            }
+        }
+
+        private IEnumerator IncreaseOxygenLevelRoutine()
+        {
+            while (true)
+            {
+                float timeBetweenIncrement = timeBetweenDecrement;
+                yield return new WaitForSeconds(timeBetweenIncrement);
+                IncrementOxygenLevelByAmount(amountToIncrease: redBloodCellNPCsManager.GetRateOfOxygenIncreaseBasedOnRBCLevel());
             }
         }
 
@@ -91,7 +109,7 @@ namespace DataEntities
         {
             oxygenLevel += amountToIncrease;
             oxygenLevel = Mathf.Min(oxygenLevel, MAXIMUM_OXYGEN_LEVEL);
-            Debug.Log($"Legs Oxygen level increased by {amountToIncrease} to {oxygenLevel}");
+            // Debug.Log($"Legs Oxygen level increased by {amountToIncrease} to {oxygenLevel}");
         }
 
         // Increases/decreases the oxygen rate of demand
