@@ -117,7 +117,7 @@ public class BloodDonationController : MonoBehaviour
             infoPanel.SetActive(false);
             successPanel.SetActive(true);
 
-            Coroutine coroutine = StartCoroutine(ResetNPCCoroutine(infoPanel, successPanel));
+            Coroutine coroutine = StartCoroutine(ResetNPCCoroutine(infoPanel, successPanel, NPC_Number));
             switch (NPC_Number)
             {
                 case 1: Coroutine_NPC_1 = coroutine; break;
@@ -132,7 +132,7 @@ public class BloodDonationController : MonoBehaviour
             infoPanel.SetActive(false);
             failPanel.SetActive(true);
 
-            Coroutine coroutine = StartCoroutine(ResetNPCCoroutine(infoPanel, failPanel));
+            Coroutine coroutine = StartCoroutine(ResetNPCCoroutine(infoPanel, failPanel, NPC_Number));
             switch (NPC_Number)
             {
                 case 1: Coroutine_NPC_1 = coroutine; break;
@@ -147,11 +147,21 @@ public class BloodDonationController : MonoBehaviour
     /**
      * Coroutines
      */
-    IEnumerator ResetNPCCoroutine(GameObject panelToDisplay, GameObject panelToHide)
+    IEnumerator ResetNPCCoroutine(GameObject panelToDisplay, GameObject panelToHide, int npcNumber)
     {
         yield return new WaitForSeconds(3);
 
         panelToDisplay.SetActive(true);
         panelToHide.SetActive(false);
+
+        // Clear the coroutine reference
+        switch (npcNumber)
+        {
+            case 1: Coroutine_NPC_1 = null; break;
+            case 2: Coroutine_NPC_2 = null; break;
+            case 3: Coroutine_NPC_3 = null; break;
+            case 4: Coroutine_NPC_4 = null; break;
+            case 5: Coroutine_NPC_5 = null; break;
+        }
     }
 }
