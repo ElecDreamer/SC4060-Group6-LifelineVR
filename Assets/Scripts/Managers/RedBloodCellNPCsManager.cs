@@ -39,4 +39,19 @@ public class RedBloodCellNPCsManager : MonoBehaviour
         // TODO: Update Game UI for RBC NPCs. If RBC falls belows a level, show less RBCs in the bloodstream
         // DataEntities.RedBloodCellNPC redBloodCellNPC = new();
     }
+
+    public int GetRateOfOxygenIncreaseBasedOnRBCLevel()
+    {
+        float rbcLevel = GlobalVariables.Instance.redBloodCellLevel.level;
+        if (rbcLevel >= 66f)
+        {
+            return 2;
+        } else if (rbcLevel >= 33f)
+        {
+            return 1;
+        } else
+        {
+            return 0;
+        }
+    }
 }

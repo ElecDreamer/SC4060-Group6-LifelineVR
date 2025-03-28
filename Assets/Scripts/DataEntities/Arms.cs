@@ -17,14 +17,21 @@ namespace DataEntities
 
         // Decrease by 1 (default) for every 5 seconds
         public readonly float DEFAULT_OXYGEN_RATE_OF_DEMAND = 1f;
-        public readonly float PULLUP_OXYGEN_RATE_OF_DEMAND = 5f;
+        public readonly float LIFTING_OXYGEN_RATE_OF_DEMAND = 5f;
         private readonly float timeBetweenDecrement = 5f; // in seconds
+
+        private RedBloodCellNPCsManager redBloodCellNPCsManager;
 
         void Start()
         {
             Debug.Log("Init Arms");
             oxygenLevel = 100f;
             oxygenRateofDemand = DEFAULT_OXYGEN_RATE_OF_DEMAND;
+
+            // Find the Controllers in the scene
+            redBloodCellNPCsManager = FindObjectOfType<RedBloodCellNPCsManager>();
+            if (redBloodCellNPCsManager == null)
+                Debug.LogError("RedBloodCellNPCsManager not found! Make sure it's in the scene.");
         }
 
         /**
@@ -56,6 +63,7 @@ namespace DataEntities
                 // Start the coroutine
                 Debug.Log("Start Arms Oxygen Coroutine");
                 StartCoroutine(DecreaseOxygenLevelRoutine());
+                StartCoroutine(IncreaseOxygenLevelRoutine());
             }
             else
             {
@@ -71,6 +79,16 @@ namespace DataEntities
             {
                 yield return new WaitForSeconds(timeBetweenDecrement);
                 DecrementOxygenLevelByAmount(amountToDecrease: oxygenRateofDemand);
+            }
+        }
+
+        private IEnumerator IncreaseOxygenLevelRoutine()
+        {
+            while (true)
+            {
+                float timeBetweenIncrement = timeBetweenDecrement;
+                yield return new WaitForSeconds(timeBetweenIncrement);
+                IncrementOxygenLevelByAmount(amountToIncrease: redBloodCellNPCsManager.GetRateOfOxygenIncreaseBasedOnRBCLevel());
             }
         }
 
@@ -91,14 +109,14 @@ namespace DataEntities
         {
             oxygenLevel += amountToIncrease;
             oxygenLevel = Mathf.Min(oxygenLevel, MAXIMUM_OXYGEN_LEVEL);
-            Debug.Log($"Arms Oxygen level increased by {amountToIncrease} to {oxygenLevel}");
+            // Debug.Log($"Arms Oxygen level increased by {amountToIncrease} to {oxygenLevel}");
         }
 
         // Increases/decreases the oxygen rate of demand
-        public void ToggleToPullupOxygenDemand()
+        public void ToggleToLiftingOxygenDemand()
         {
-            Debug.Log("[Arms] Pullup Oxygen Demand triggered");
-            oxygenRateofDemand = PULLUP_OXYGEN_RATE_OF_DEMAND;
+            Debug.Log("[Arms] Lifting Oxygen Demand triggered");
+            oxygenRateofDemand = LIFTING_OXYGEN_RATE_OF_DEMAND;
         }
 
         public void ToggleToDefaultOxygenDemand()

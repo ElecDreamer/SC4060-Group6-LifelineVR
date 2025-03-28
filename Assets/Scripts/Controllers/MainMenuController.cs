@@ -22,6 +22,6 @@ public class MainMenuController : MonoBehaviour
         GlobalVariables.Instance.gameStarted = true;
         GlobalVariables.Instance.InitHardDifficultyGameConfiguration();
 
-        SceneManager.LoadScene("RedBloodCellModeScene");
+        SceneManager.LoadScene("HumanModeScene");
     }
 }
