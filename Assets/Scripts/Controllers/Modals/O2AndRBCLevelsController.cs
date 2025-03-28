@@ -12,6 +12,15 @@ public class O2AndRBCLevelsController : MonoBehaviour
     public Image maskLegsO2Level;
     public Image maskBrainO2Level;
 
+    public Image maskArmsO2LevelFill;
+    public Image maskLegsO2LevelFill;
+
+    public GameObject armsActiveImage;
+    public GameObject legsActiveImage;
+
+    private Color INACTIVE_COLOR = new Color(0.6f, 0.8431373f, 0.9333333f, 1);
+    private Color ACTIVE_COLOR = new Color(0.9372549f, 0.8588235f, 0.827451f, 1);
+
     // Update is called once per frame
     void Update()
     {
@@ -52,6 +61,22 @@ public class O2AndRBCLevelsController : MonoBehaviour
         fillAmount = current / maximum;
         maskBrainO2Level.fillAmount = fillAmount;
     }
+
+    public void SetArmsActiveUI(bool active)
+    {
+        armsActiveImage.SetActive(active);
+        maskArmsO2LevelFill.color = active ? ACTIVE_COLOR : INACTIVE_COLOR;
+    }
+
+    public void SetLegsActiveUI(bool active)
+    {
+        legsActiveImage.SetActive(active);
+        maskLegsO2LevelFill.color = active ? ACTIVE_COLOR : INACTIVE_COLOR;
+    }
+
+    /**
+     * Open/Close Modal
+     */
     public void Display()
     {
         if (O2AndRBCLevelsBarPanel.activeSelf == true)

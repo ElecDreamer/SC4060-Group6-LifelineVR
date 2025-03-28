@@ -11,6 +11,15 @@ public class DumbbellController : MonoBehaviour
     private Coroutine stopLiftingCoroutine;
     public int numberOfDumbbellsLifted;
 
+    private O2AndRBCLevelsController o2AndRBCLevelsController;
+
+    private void Start()
+    {
+        o2AndRBCLevelsController = FindObjectOfType<O2AndRBCLevelsController>();
+        if (o2AndRBCLevelsController == null)
+            Debug.LogError("O2AndRBCLevelsController not found! Make sure it's in the scene.");
+    }
+
     public void StartLiftingDumbbell()
     {
         numberOfDumbbellsLifted += 1;
@@ -26,6 +35,9 @@ public class DumbbellController : MonoBehaviour
 
         startLiftingModalPanel.SetActive(true);
         stoppedLiftingModalPanel.SetActive(false);
+
+        // Update Arms O2 Levels Modal UI
+        o2AndRBCLevelsController.SetArmsActiveUI(true);
     }
 
     public void StopLiftingDumbbell()
@@ -52,6 +64,9 @@ public class DumbbellController : MonoBehaviour
 
             startLiftingModalPanel.SetActive(false);
             stoppedLiftingModalPanel.SetActive(true);
+
+            // Update Arms O2 Levels Modal UI
+            o2AndRBCLevelsController.SetArmsActiveUI(false);
 
             yield return new WaitForSeconds(seconds);
             stoppedLiftingModalPanel.SetActive(false);
