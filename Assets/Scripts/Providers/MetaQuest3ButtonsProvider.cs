@@ -99,8 +99,6 @@ public class MetaQuest3ButtonsProvider: MonoBehaviour
     {
         Debug.Log("Right Button B pressed");
 
-        if (GlobalVariables.Instance.gameDifficulty != Enums.GameDifficulty.Hard) return;
-
         if (!o2AndRBCLevelsController.O2AndRBCLevelsBarPanel.activeSelf)
         {
             Debug.Log("Open Fridge");
