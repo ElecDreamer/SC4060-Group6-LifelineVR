@@ -22,11 +22,18 @@ public class SwingingArmMotion : MonoBehaviour
     [SerializeField] private float Speed;
     [SerializeField] private float HandSpeed;
 
+    private RunningController runningController;
+
     void Start()
     {
         PlayerPositionPreviousFrame = transform.position; //set current positions
         PositionPreviousFrameLeftHand = LeftHand.transform.position; //set previous positions
         PositionPreviousFrameRightHand = RightHand.transform.position;
+
+        // Init controllers
+        runningController = FindObjectOfType<RunningController>();
+        if (runningController == null)
+            Debug.LogError("RunningController not found! Make sure it's in the scene.");
     }
 
     // Update is called once per frame
@@ -53,7 +60,8 @@ public class SwingingArmMotion : MonoBehaviour
         // aggregate to get hand speed
         HandSpeed = ((leftHandDistanceMoved - playerDistanceMoved) + (rightHandDistanceMoved - playerDistanceMoved));
 
-        if(Time.timeSinceLevelLoad > 1f && (HandSpeed >= 0.03 || HandSpeed <= -0.03))
+        bool currentlyRunning = Time.timeSinceLevelLoad > 1f && (HandSpeed >= 0.03 || HandSpeed <= -0.03);
+        if (currentlyRunning)
         {
             transform.position += ForwardDirection.transform.forward * HandSpeed * Speed * Time.deltaTime;
         }
@@ -63,5 +71,8 @@ public class SwingingArmMotion : MonoBehaviour
         PositionPreviousFrameRightHand = PositionCurrentFrameRightHand;
         // set player position previous frame
         PlayerPositionPreviousFrame = PlayerPositionCurrentFrame;
+
+        // Update isRunning State
+        runningController.UpdateIsRunningState(currentlyRunning);
     }
 }
