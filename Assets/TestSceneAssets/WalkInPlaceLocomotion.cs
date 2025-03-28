@@ -30,7 +30,7 @@ public class WalkInPlaceLocomotion : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!GlobalVariables.Instance.canRun) return;
+        if (!GlobalVariables.Instance.gameStarted || !GlobalVariables.Instance.canRun) return;
 
         Vector3 leftHandVelocity = leftHand.transform.position - previousPosLeft;
         Vector3 rightHandVelocity = rightHand.transform.position - previousPosRight;
