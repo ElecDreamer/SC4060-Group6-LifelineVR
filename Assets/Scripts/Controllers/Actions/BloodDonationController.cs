@@ -32,6 +32,12 @@ public class BloodDonationController : MonoBehaviour
     public GameObject SuccessPanel_NPC_5;
     public GameObject FailPanel_NPC_5;
 
+    public GameObject BloodPack_NPC_1;
+    public GameObject BloodPack_NPC_2;
+    public GameObject BloodPack_NPC_3;
+    public GameObject BloodPack_NPC_4;
+    public GameObject BloodPack_NPC_5;
+
     private Coroutine Coroutine_NPC_1;
     private Coroutine Coroutine_NPC_2;
     private Coroutine Coroutine_NPC_3;
@@ -44,10 +50,30 @@ public class BloodDonationController : MonoBehaviour
         fridgeInventoryController = FindObjectOfType<FridgeInventoryController>();
         if (fridgeInventoryController == null)
             Debug.LogError("FridgeInventoryController not found! Make sure it's in the scene.");
+
+        // If game difficulty is easy
+        if (GlobalVariables.Instance.gameDifficulty == Enums.GameDifficulty.Easy)
+        {
+            // Hide info panel
+            InfoPanel_NPC_1.SetActive(false);
+            InfoPanel_NPC_2.SetActive(false);
+            InfoPanel_NPC_3.SetActive(false);
+            InfoPanel_NPC_4.SetActive(false);
+            InfoPanel_NPC_5.SetActive(false);
+
+            // Hide Block Packs
+            BloodPack_NPC_1.SetActive(false);
+            BloodPack_NPC_2.SetActive(false);
+            BloodPack_NPC_3.SetActive(false);
+            BloodPack_NPC_4.SetActive(false);
+            BloodPack_NPC_5.SetActive(false);
+        }
     }
 
     public void AskForBloodDonation(int NPC_Number)
     {
+        if (GlobalVariables.Instance.gameDifficulty == Enums.GameDifficulty.Easy) return; // Do not execute if game difficulty is easy
+
         Debug.Log("Ask for Blood Donation from NPC #" + NPC_Number);
 
         float bloodDonationProbability = NPC_Number switch
