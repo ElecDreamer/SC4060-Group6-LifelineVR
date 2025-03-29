@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using DataEntities;
+using System.Linq;
+using System;
 
 public class RedBloodCellShipManager : MonoBehaviour
 {
@@ -17,9 +20,6 @@ public class RedBloodCellShipManager : MonoBehaviour
         // Initialise starting forward speed
         currentForwardSpeedType = FORWARD_SPEED_TYPE.STOP;
         forwardSpeedText_Stop.color = forwardTextActiveColor;
-
-        // Initialise starting o2 storage
-        currentO2InStorage = 0;
     }
 
     // Update is called once per frame
@@ -57,7 +57,6 @@ public class RedBloodCellShipManager : MonoBehaviour
      * Forward motion
      */
     public FORWARD_SPEED_TYPE currentForwardSpeedType;
-    public float MAX_FORWARD_SPEED = 10f;
     private float currentSpeed;
 
     public enum FORWARD_SPEED_TYPE
@@ -147,24 +146,89 @@ public class RedBloodCellShipManager : MonoBehaviour
     /**
      * Oxygen Storage
      */
+    public GameObject oxygenBall;
+    public List<GameObject> collectedOxygenBalls;
+    public Transform oxygenBallSpawnPoint;
+
     public Image maskO2StorageLevel;
-    public int currentO2InStorage;
-    private readonly int MAX_O2_STORAGE_LEVEL = 100;
-    
+    private readonly int MAX_O2_STORAGE_LEVEL = OxygenPlayerStorage.MAXIMUM;
+    public int AMOUNT_OF_O2_PER_BALL = 5;
+
+    private bool canAddOxygen = true; // workaround for single click triggering twice
+    private bool canRemoveOxygen = true; // workaround for single click triggering twice
+
     void GetCurrentFillO2StorageLevel()
     {
-        float fillAmount = currentO2InStorage / MAX_O2_STORAGE_LEVEL;
+        int currentO2InStorage = GlobalVariables.Instance.oxygenPlayerStorage.numberOfOxygen;
+        float fillAmount = (float) currentO2InStorage / (float) MAX_O2_STORAGE_LEVEL;
         maskO2StorageLevel.fillAmount = fillAmount;
     }
     
     public void AddOxygenToStorage()
     {
+        if (!canAddOxygen) return;
+        canAddOxygen = false;
+
+        Debug.Log("Add Oxygen To Storage");
+
+        if (GlobalVariables.Instance.oxygenPlayerStorage.numberOfOxygen == MAX_O2_STORAGE_LEVEL) return;
+
         // TODO
-        currentO2InStorage += 10;
+        GlobalVariables.Instance.oxygenPlayerStorage.IncrementNumberOfOxygenInStorage(AMOUNT_OF_O2_PER_BALL);
+
+        // spawn in scene
+        GameObject spawnedOxygenBall = Instantiate(oxygenBall);
+
+
+        // Offset each ball by some Z distance based on how many have been spawned
+        float spacing = 0.1f;
+        Vector3 offset = collectedOxygenBalls.Count * spacing * Vector3.back;
+
+        // position
+        spawnedOxygenBall.transform.position = oxygenBallSpawnPoint.position + offset;
+
+        // decrease scale
+        spawnedOxygenBall.transform.localScale = Vector3.one * 0.025f;
+
+        // Set parent so it follows the ship
+        spawnedOxygenBall.transform.SetParent(transform, worldPositionStays: true);
+
+        // Update List
+        collectedOxygenBalls.Add(spawnedOxygenBall);
+        
+        // Reset after short delay
+        Invoke(nameof(ResetAddOxygenClick), 0.2f);
     }
+    private void ResetAddOxygenClick() // workaround for single click triggering twice
+    {
+        canAddOxygen = true;
+    }
+
     public void RemoveOxygenFromStorage()
     {
+        if (!canRemoveOxygen) return;
+        canRemoveOxygen = false;
+
+        Debug.Log("Remove Oxygen From Storage");
+
         // TODO
-        currentO2InStorage -= 10;
+        if (GlobalVariables.Instance.oxygenPlayerStorage.numberOfOxygen == 0) return;
+
+        GlobalVariables.Instance.oxygenPlayerStorage.DecrementNumberOfOxygenInStorage(AMOUNT_OF_O2_PER_BALL);
+
+        GameObject spawnedOxygenBallToDestroy = collectedOxygenBalls.Last();
+
+        // remove from scene
+        Destroy(spawnedOxygenBallToDestroy);
+
+        collectedOxygenBalls.RemoveAt(collectedOxygenBalls.Count - 1);
+
+        // Reset after short delay
+        Invoke(nameof(ResetRemoveOxygenClick), 0.2f);
     }
+    private void ResetRemoveOxygenClick() // workaround for single click triggering twice
+    {
+        canRemoveOxygen = true;
+    }
+
 }

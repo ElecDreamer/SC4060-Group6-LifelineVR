@@ -18,7 +18,7 @@ namespace DataEntities
 
     public class OxygenPlayerStorage : MonoBehaviour
     {
-        public readonly static int MAXIMUM = 50;
+        public readonly static int MAXIMUM = 100;
         public readonly static int MINIMUM = 0;
         public int numberOfOxygen;
 
