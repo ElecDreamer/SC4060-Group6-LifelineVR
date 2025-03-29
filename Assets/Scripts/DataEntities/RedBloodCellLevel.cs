@@ -25,8 +25,8 @@ namespace DataEntities
         private readonly float timeBetweenDecrement = 5f; // in seconds
 
         // Spike decrease by 5-10 for every 14mins
-        public static float rateOfDecrementSpikeMin = 5;
-        public static float rateOfDecrementSpikeMax = 10;
+        public static float rateOfDecrementSpikeMin = 15;
+        public static float rateOfDecrementSpikeMax = 30;
         private readonly float timeBetweenDecrementSpike = 840f; // 14mins (in seconds)
 
         private static RedBloodCellLevel instance; // Singleton instance

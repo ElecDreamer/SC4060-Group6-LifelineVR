@@ -127,11 +127,11 @@ public class FridgeInventoryController : MonoBehaviour
         GetBloodPackCounts();
         UpdateDisplayTexts();
 
-        Debug.Log("Added 1x SuperFresh Blood Pack");
+        /*Debug.Log("Added 1x SuperFresh Blood Pack");
         notificationController.DisplayNotification(
             Enums.NotificationType.Success,
             $"1x SuperFresh Blood Pack added.",
-            SUCCESS_NOTIFICATION_DURATION);
+            SUCCESS_NOTIFICATION_DURATION);*/
     }
 
     private void ConsumeBloodPack(DataEntities.BloodPack.BloodPackState selectedState)

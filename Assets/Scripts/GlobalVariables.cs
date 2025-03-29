@@ -18,6 +18,12 @@ public class GlobalVariables : MonoBehaviour
     public DataEntities.Brain brain;
     public DataEntities.OxygenPlayerStorage oxygenPlayerStorage;
 
+    // Actions related
+    public bool canRun;
+    public bool isRunning;
+    public bool isLifting;
+
+
     /**
      * Skeleton Instance
      */
@@ -54,6 +60,10 @@ public class GlobalVariables : MonoBehaviour
     {
         Debug.Log("Init default GlobalVariables");
         gameMode = Enums.GameMode.Human;
+
+        canRun = true;
+        isRunning = false;
+        isLifting = false;
     }
 
     private void OnEnable()
