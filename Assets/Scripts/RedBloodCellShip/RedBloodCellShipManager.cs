@@ -157,6 +157,12 @@ public class RedBloodCellShipManager : MonoBehaviour
     private bool canAddOxygen = true; // workaround for single click triggering twice
     private bool canRemoveOxygen = true; // workaround for single click triggering twice
 
+    public GameObject SuccessNotificationPanel;
+    public GameObject WarningNotificationPanel;
+
+    public TMP_Text SuccessNotificationText;
+    public TMP_Text WarningNotificationText;
+
     void GetCurrentFillO2StorageLevel()
     {
         int currentO2InStorage = GlobalVariables.Instance.oxygenPlayerStorage.numberOfOxygen;
@@ -166,14 +172,14 @@ public class RedBloodCellShipManager : MonoBehaviour
     
     public void AddOxygenToStorage()
     {
+        if (!IsPlayerInLungsZone()) return; // check if player is in lungs zone
+        if (GlobalVariables.Instance.oxygenPlayerStorage.numberOfOxygen == MAX_O2_STORAGE_LEVEL) return;
+
         if (!canAddOxygen) return;
         canAddOxygen = false;
 
         Debug.Log("Add Oxygen To Storage");
 
-        if (GlobalVariables.Instance.oxygenPlayerStorage.numberOfOxygen == MAX_O2_STORAGE_LEVEL) return;
-
-        // TODO
         GlobalVariables.Instance.oxygenPlayerStorage.IncrementNumberOfOxygenInStorage(AMOUNT_OF_O2_PER_BALL);
 
         // spawn in scene
@@ -195,7 +201,10 @@ public class RedBloodCellShipManager : MonoBehaviour
 
         // Update List
         collectedOxygenBalls.Add(spawnedOxygenBall);
-        
+
+        // Notification
+        DisplayO2Notification(Enums.NotificationType.Success, "Oxygen collected from Lungs!", 1);
+
         // Reset after short delay
         Invoke(nameof(ResetAddOxygenClick), 0.2f);
     }
@@ -206,13 +215,13 @@ public class RedBloodCellShipManager : MonoBehaviour
 
     public void RemoveOxygenFromStorage()
     {
+        if (!IsPlayerInDepositOxygenZone()) return;
+        if (GlobalVariables.Instance.oxygenPlayerStorage.numberOfOxygen == 0) return;
+
         if (!canRemoveOxygen) return;
         canRemoveOxygen = false;
 
         Debug.Log("Remove Oxygen From Storage");
-
-        // TODO
-        if (GlobalVariables.Instance.oxygenPlayerStorage.numberOfOxygen == 0) return;
 
         GlobalVariables.Instance.oxygenPlayerStorage.DecrementNumberOfOxygenInStorage(AMOUNT_OF_O2_PER_BALL);
 
@@ -223,6 +232,9 @@ public class RedBloodCellShipManager : MonoBehaviour
 
         collectedOxygenBalls.RemoveAt(collectedOxygenBalls.Count - 1);
 
+        // Deposit Oxygen to body part
+        DepositOxygenToBodyPartBasedOnZone(AMOUNT_OF_O2_PER_BALL);
+
         // Reset after short delay
         Invoke(nameof(ResetRemoveOxygenClick), 0.2f);
     }
@@ -231,4 +243,115 @@ public class RedBloodCellShipManager : MonoBehaviour
         canRemoveOxygen = true;
     }
 
+    /**
+     * Collect / Deposit Oxygen to body parts
+     */
+    public PlayerRBCModeZoneTracker playerRBCModeZoneTracker;
+    private bool DepositOxygenToBodyPartBasedOnZone(int amount)
+    {
+        switch (playerRBCModeZoneTracker.currentZone)
+        {
+            case "Arms Zone":
+                Debug.Log("Deposit Oxygen To Arms");
+                GlobalVariables.Instance.arms.IncrementOxygenLevelByAmount(amount);
+                DisplayO2Notification(Enums.NotificationType.Success, "Oxygen deposited into Arms!", 1);
+                return true;
+            case "Legs Zone":
+                Debug.Log("Deposit Oxygen To Legs");
+                GlobalVariables.Instance.legs.IncrementOxygenLevelByAmount(amount);
+                DisplayO2Notification(Enums.NotificationType.Success, "Oxygen deposited into Legs!", 1);
+                return true;
+            case "Brain Zone":
+                Debug.Log("Deposit Oxygen To Brain");
+                GlobalVariables.Instance.brain.IncrementOxygenLevelByAmount(amount);
+                DisplayO2Notification(Enums.NotificationType.Success, "Oxygen deposited into Brain!", 1);
+                return true;
+            default:
+                Debug.Log("Invalid zone to deposit oxygen!");
+                DisplayO2Notification(Enums.NotificationType.Warning, "Invalid zone to deposit oxygen!", 1);
+                return false;
+        }
+    }
+    private bool IsPlayerInDepositOxygenZone()
+    {
+        switch (playerRBCModeZoneTracker.currentZone)
+        {
+            case "Arms Zone":
+                Debug.Log("Player in Arms Zone");
+                return true;
+            case "Legs Zone":
+                Debug.Log("Player in Legs Zone");
+                return true;
+            case "Brain Zone":
+                Debug.Log("Player in Brain Zone");
+                return true;
+            default:
+                Debug.Log("Invalid zone to deposit oxygen!");
+                DisplayO2Notification(Enums.NotificationType.Warning, "Invalid zone to deposit oxygen!", 1);
+                return false;
+        }
+    }
+
+    private bool IsPlayerInLungsZone()
+    {
+        switch (playerRBCModeZoneTracker.currentZone)
+        {
+            case "Lungs Zone":
+                Debug.Log("Player in Lungs Zone");
+                return true;
+            default:
+                Debug.Log("Invalid zone to collect oxygen!");
+                DisplayO2Notification(Enums.NotificationType.Warning, "Invalid zone to collect oxygen!", 1);
+                return false;
+        }
+    }
+
+    // Collect / Deposit Oxygen Notifications
+    private void DisplayO2Notification(Enums.NotificationType notificationType, string message, float duration)
+    {
+        switch (notificationType)
+        {
+            case Enums.NotificationType.Success:
+                if (SuccessNotificationPanel.activeSelf == true)
+                {
+                    Debug.LogWarning("Success Notification already sent. Please wait till the previous notification to disappear...");
+                    return;
+                }
+                SuccessNotificationText.SetText(message);
+                SuccessNotificationPanel.SetActive(true);
+                break;
+            case Enums.NotificationType.Warning:
+                if (WarningNotificationPanel.activeSelf == true)
+                {
+                    Debug.LogWarning("Warning Notification already sent. Please wait till the previous notification to disappear...");
+                    return;
+                }
+                WarningNotificationText.SetText(message);
+                WarningNotificationPanel.SetActive(true);
+                break;
+            default:
+                Debug.LogWarning("Notification Type is not supported.");
+                return;
+        }
+
+        StartCoroutine(AutoCloseO2Notification(notificationType, duration)); // Auto close notification modal
+    }
+    private IEnumerator AutoCloseO2Notification(Enums.NotificationType notificationType, float delay)
+    {
+        yield return new WaitForSecondsRealtime(delay);
+
+        switch (notificationType)
+        {
+            case Enums.NotificationType.Success:
+                SuccessNotificationText.SetText("");
+                SuccessNotificationPanel.SetActive(false);
+                break;
+            case Enums.NotificationType.Warning:
+                WarningNotificationText.SetText("");
+                WarningNotificationPanel.SetActive(false);
+                break;
+            default:
+                break;
+        }
+    }
 }
