@@ -18,7 +18,7 @@ public class MainMenuController : MonoBehaviour
         SceneManager.LoadScene("HumanModeScene");
 
         // Reset after short delay; workaround for single click triggering twice
-        Invoke(nameof(ResetAddOxygenClick), 0.2f);
+        Invoke(nameof(ResetClick), 0.2f);
     }
 
     public void StartHardGameBtn()
@@ -34,11 +34,11 @@ public class MainMenuController : MonoBehaviour
         SceneManager.LoadScene("HumanModeScene");
 
         // Reset after short delay; workaround for single click triggering twice
-        Invoke(nameof(ResetAddOxygenClick), 0.2f);
+        Invoke(nameof(ResetClick), 0.2f);
     }
 
     private bool canClick = true; // workaround for single click triggering twice
-    private void ResetAddOxygenClick() // workaround for single click triggering twice
+    private void ResetClick() // workaround for single click triggering twice
     {
         canClick = true;
     }

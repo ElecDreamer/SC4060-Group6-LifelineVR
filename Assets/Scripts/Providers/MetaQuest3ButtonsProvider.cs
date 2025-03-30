@@ -63,12 +63,34 @@ public class MetaQuest3ButtonsProvider: MonoBehaviour
 
     }
 
+    private void OnDisable()
+    {
+        // Unsubscribing from the input actions ensures Unity won’t try to call your method after the scene unloads and objects are gone.
+        rightButtonAAction.action.started -= RightButtonAWasPressed;
+        rightButtonAAction.action.canceled -= RightButtonAWasReleased;
+
+        rightButtonBAction.action.started -= RightButtonBWasPressed;
+        rightButtonBAction.action.canceled -= RightButtonBWasReleased;
+
+        leftButtonXAction.action.started -= LeftButtonXWasPressed;
+        leftButtonXAction.action.canceled -= LeftButtonXWasReleased;
+
+        leftButtonYAction.action.started -= LeftButtonYWasPressed;
+        leftButtonYAction.action.canceled -= LeftButtonYWasReleased;
+
+        rightSelectAction.action.started -= RightSelectActionWasPressed;
+        rightSelectAction.action.canceled -= RightSelectActionWasReleased;
+        leftSelectAction.action.started -= LeftSelectActionWasPressed;
+        leftSelectAction.action.canceled -= LeftSelectActionWasReleased;
+    }
+
     /**
      * Right Button A
      */
     void RightButtonAWasPressed(InputAction.CallbackContext context)
     {
         Debug.Log("Right Button A pressed");
+        if (GlobalVariables.Instance.gameOver) return;
 
         if (GlobalVariables.Instance.gameDifficulty != Enums.GameDifficulty.Hard) return;
 
@@ -90,6 +112,7 @@ public class MetaQuest3ButtonsProvider: MonoBehaviour
     void RightButtonAWasReleased(InputAction.CallbackContext context)
     {
         Debug.Log("Right Button A released");
+        if (GlobalVariables.Instance.gameOver) return;
     }
 
     /**
@@ -98,6 +121,7 @@ public class MetaQuest3ButtonsProvider: MonoBehaviour
     void RightButtonBWasPressed(InputAction.CallbackContext context)
     {
         Debug.Log("Right Button B pressed");
+        if (GlobalVariables.Instance.gameOver) return;
 
         if (!o2AndRBCLevelsController.O2AndRBCLevelsBarPanel.activeSelf)
         {
@@ -116,6 +140,7 @@ public class MetaQuest3ButtonsProvider: MonoBehaviour
     void RightButtonBWasReleased(InputAction.CallbackContext context)
     {
         Debug.Log("Right Button B released");
+        if (GlobalVariables.Instance.gameOver) return;
     }
 
     /**
@@ -124,6 +149,7 @@ public class MetaQuest3ButtonsProvider: MonoBehaviour
     void LeftButtonXWasPressed(InputAction.CallbackContext context)
     {
         Debug.Log("Left Button X pressed");
+        if (GlobalVariables.Instance.gameOver) return;
 
         if (!gameMenuController.GameMenuPanel.activeSelf)
         {
@@ -144,6 +170,7 @@ public class MetaQuest3ButtonsProvider: MonoBehaviour
     void LeftButtonXWasReleased(InputAction.CallbackContext context)
     {
         Debug.Log("Left Button X released");
+        if (GlobalVariables.Instance.gameOver) return;
     }
 
     /**
@@ -152,6 +179,7 @@ public class MetaQuest3ButtonsProvider: MonoBehaviour
     void LeftButtonYWasPressed(InputAction.CallbackContext context)
     {
         Debug.Log("Left Button Y pressed");
+        if (GlobalVariables.Instance.gameOver) return;
 
         if (!questHandControllersMenuController.QuestControllerMenuContainerPanel.activeSelf)
         {
@@ -172,6 +200,7 @@ public class MetaQuest3ButtonsProvider: MonoBehaviour
     void LeftButtonYWasReleased(InputAction.CallbackContext context)
     {
         Debug.Log("Left Button Y released");
+        if (GlobalVariables.Instance.gameOver) return;
     }
 
     /**
@@ -180,11 +209,13 @@ public class MetaQuest3ButtonsProvider: MonoBehaviour
     void RightSelectActionWasPressed(InputAction.CallbackContext context)
     {
         Debug.Log("Right Select Action pressed");
+        if (GlobalVariables.Instance.gameOver) return;
     }
 
     void RightSelectActionWasReleased(InputAction.CallbackContext context)
     {
         Debug.Log("Right Select Action released");
+        if (GlobalVariables.Instance.gameOver) return;
     }
 
     /**
@@ -193,11 +224,13 @@ public class MetaQuest3ButtonsProvider: MonoBehaviour
     void LeftSelectActionWasPressed(InputAction.CallbackContext context)
     {
         Debug.Log("Left Select Action pressed");
+        if (GlobalVariables.Instance.gameOver) return;
     }
 
     void LeftSelectActionWasReleased(InputAction.CallbackContext context)
     {
         Debug.Log("Left Select Action released");
+        if (GlobalVariables.Instance.gameOver) return;
     }
 
 }
