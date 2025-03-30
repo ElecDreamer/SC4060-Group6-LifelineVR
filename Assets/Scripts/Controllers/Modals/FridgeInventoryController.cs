@@ -159,35 +159,72 @@ public class FridgeInventoryController : MonoBehaviour
             Enums.NotificationType.Success,
             $"1x {selectedState} Blood Pack consumed. {DataEntities.BloodPack.AMOUNT_OF_RED_BLOOD_CELLS} Red Blood Cells are regained!",
             SUCCESS_NOTIFICATION_DURATION);
+    }
 
+    private bool canClick = true; // workaround for single click triggering twice
+    private void ResetClick() // workaround for single click triggering twice
+    {
+        canClick = true;
     }
 
     public void ConsumeSuperFreshBloodPack()
     {
+        // workaround for single click triggering twice
+        if (!canClick) return;
+        canClick = false;
+
         if (CheckIfBloodPackAvailable(DataEntities.BloodPack.BloodPackState.SuperFresh))
             ConsumeBloodPack(DataEntities.BloodPack.BloodPackState.SuperFresh);
+
+        // Reset after short delay
+        Invoke(nameof(ResetClick), 0.2f);
     }
 
     public void ConsumeFreshBloodPack()
     {
+        // workaround for single click triggering twice
+        if (!canClick) return;
+        canClick = false;
+
         if (CheckIfBloodPackAvailable(DataEntities.BloodPack.BloodPackState.Fresh))
             ConsumeBloodPack(DataEntities.BloodPack.BloodPackState.Fresh);
+
+        // Reset after short delay
+        Invoke(nameof(ResetClick), 0.2f);
     }
 
     public void ConsumeSlightlyStaleBloodPack()
     {
+        // workaround for single click triggering twice
+        if (!canClick) return;
+        canClick = false;
+
         if (CheckIfBloodPackAvailable(DataEntities.BloodPack.BloodPackState.SlightlyStale))
             ConsumeBloodPack(DataEntities.BloodPack.BloodPackState.SlightlyStale);
+
+        // Reset after short delay
+        Invoke(nameof(ResetClick), 0.2f);
     }
 
     public void ConsumeStaleBloodPack()
     {
+        // workaround for single click triggering twice
+        if (!canClick) return;
+        canClick = false;
+
         if (CheckIfBloodPackAvailable(DataEntities.BloodPack.BloodPackState.Stale))
             ConsumeBloodPack(DataEntities.BloodPack.BloodPackState.Stale);
+
+        // Reset after short delay
+        Invoke(nameof(ResetClick), 0.2f);
     }
 
     public void DiscardAllSpoiltBloodPacks()
     {
+        // workaround for single click triggering twice
+        if (!canClick) return;
+        canClick = false;
+
         if (CheckIfBloodPackAvailable(DataEntities.BloodPack.BloodPackState.Spoilt))
         {
             int removedCount = GlobalVariables.Instance.bloodPacks.RemoveAll(bp => bp.state == DataEntities.BloodPack.BloodPackState.Spoilt);
@@ -203,6 +240,9 @@ public class FridgeInventoryController : MonoBehaviour
                 $"{removedCount}x Spoilt Blood Pack discarded",
                 SUCCESS_NOTIFICATION_DURATION);
         }
+
+        // Reset after short delay
+        Invoke(nameof(ResetClick), 0.2f);
     }
 
     /**

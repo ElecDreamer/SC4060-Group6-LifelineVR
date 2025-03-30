@@ -9950,7 +9950,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Each blood pack only last 4.2mins upon storage! (Timer is paused)
+  m_text: Each blood pack only last 4.2mins upon storage!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 88136368a0c4e46b99730b91552f2426, type: 2}
   m_sharedMaterial: {fileID: -5235695321455125149, guid: 88136368a0c4e46b99730b91552f2426, type: 2}
