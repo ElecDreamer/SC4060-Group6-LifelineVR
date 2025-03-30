@@ -26,6 +26,23 @@ public class PathSegment : MonoBehaviour
             Color.green
         );
     }
+
+    public bool IsBeyondPathEnd(Vector3 position)
+    {
+        Vector3 pathEndPosition = CalculatePathEndPosition();
+        Vector3 pathEndPositionToPositionVector = position - pathEndPosition;
+        float dotProduct = Vector3.Dot(
+            pathEndPositionToPositionVector,
+            GetComponent<VirtualTransform>().Forward
+        );
+        return dotProduct > 0;
+    }
+
+    private Vector3 CalculatePathEndPosition()
+    {
+        return GetComponent<VirtualTransform>().position
+            + GetComponent<VirtualTransform>().Forward * distance;
+    }
 }
 
 #if UNITY_EDITOR

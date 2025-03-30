@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,7 +14,7 @@ public class NPCSpawner : MonoBehaviour
 
     private PathSegment[] cachedPathSegments;
 
-    private void Start()
+    public void Start()
     {
         CachePathSegments();
         SpawnNpcs();
