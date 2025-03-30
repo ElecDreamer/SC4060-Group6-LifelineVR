@@ -1,7 +1,10 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerRBCModeZoneTracker : MonoBehaviour
 {
+    private readonly HashSet<GameObject> zones = new();
+
     public string currentZone = "";
     public GameObject currentZoneObject;
 
@@ -9,19 +12,35 @@ public class PlayerRBCModeZoneTracker : MonoBehaviour
     {
         if (other.CompareTag("Zone"))
         {
-            currentZone = other.name; // other.GetComponent<ZoneInfo>().zoneName
-            currentZoneObject = other.gameObject;
-            Debug.Log("Entered Zone: " + currentZone);
+            zones.Add(other.gameObject);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Zone") && other.gameObject == currentZoneObject)
+        if (other.CompareTag("Zone"))
+        {
+            zones.Remove(other.gameObject);
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (zones.Count > 0)
+        {
+            foreach (GameObject zone in zones)
+            {
+                currentZone = zone.name;
+                currentZoneObject = zone;
+                break;
+            }
+            Debug.Log("Current zone: " + currentZone);
+        }
+        else
         {
             currentZone = "";
             currentZoneObject = null;
-            Debug.Log("Left zone.");
+            Debug.Log("No zones detected.");
         }
     }
 }
