@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class GlobalVariables : MonoBehaviour
 {
     public bool gameStarted;
+    public bool gameOver;
 
     public Enums.GameDifficulty gameDifficulty;
     public Enums.GameMode gameMode;
@@ -58,12 +59,7 @@ public class GlobalVariables : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Init default GlobalVariables");
-        gameMode = Enums.GameMode.Human;
 
-        canRun = true;
-        isRunning = false;
-        isLifting = false;
     }
 
     private void OnEnable()
@@ -144,6 +140,12 @@ public class GlobalVariables : MonoBehaviour
     private void InitCommonGameConfiguration()
     {
         Debug.Log("Init Common Game Configuration");
+        gameMode = Enums.GameMode.Human;
+        gameOver = false;
+
+        canRun = true;
+        isRunning = false;
+        isLifting = false;
 
         // Initialize Body Parts
         Debug.Log("\tInit Arms, Legs, and Brain");
