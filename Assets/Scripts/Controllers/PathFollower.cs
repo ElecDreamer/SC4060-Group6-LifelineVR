@@ -8,6 +8,7 @@ public class PathFollower : MonoBehaviour
     public float pullAcceleration = 0.5f;
     public float maxSpeed = 1f;
     public float radius = 0.9f;
+    public bool disallowGoingToOtherPathSegments = false;
 
     private Vector3 velocity;
     private VirtualTransform virtualTransform;
@@ -31,6 +32,7 @@ public class PathFollower : MonoBehaviour
         PushTowardsEndOfPathSegment();
         PullTowardsMiddleOfPathSegment();
         DisallowGoingOutSidePathSegment();
+        DisallowGoingToOtherPathSegments();
         LimitVelocity();
         ApplyVelocity();
     }
@@ -77,6 +79,39 @@ public class PathFollower : MonoBehaviour
         if (IsOutsideEffectiveRadius(radialOffset, effectiveRadius))
         {
             AdjustVelocityToStayWithinRadius(radialOffset);
+        }
+    }
+
+    private void DisallowGoingToOtherPathSegments()
+    {
+        if (!disallowGoingToOtherPathSegments)
+        {
+            return;
+        }
+
+        Vector3 pathStart = currentPathSegment.GetComponent<VirtualTransform>().position;
+        Vector3 pathEnd = CalculatePathEndPosition();
+
+        Vector3 toStart = virtualTransform.position - pathStart;
+        Vector3 toEnd = virtualTransform.position - pathEnd;
+
+        Vector3 pathDirection = currentPathSegment.GetComponent<VirtualTransform>().Forward;
+
+        if (Vector3.Dot(toStart, pathDirection) < 0)
+        {
+            Vector3 startVelocity = Vector3.Project(velocity, -pathDirection);
+            if (Vector3.Dot(startVelocity, toStart) > 0)
+            {
+                velocity -= startVelocity;
+            }
+        }
+        else if (Vector3.Dot(toEnd, pathDirection) > 0)
+        {
+            Vector3 endVelocity = Vector3.Project(velocity, pathDirection);
+            if (Vector3.Dot(endVelocity, toEnd) > 0)
+            {
+                velocity -= endVelocity;
+            }
         }
     }
 
@@ -128,7 +163,7 @@ public class PathFollower : MonoBehaviour
 
     private void HandleConnectivity()
     {
-        if (IsBeyondPathEnd())
+        if (IsBeyondPathEnd() && !disallowGoingToOtherPathSegments)
         {
             SwitchToNextPathSegment();
         }
