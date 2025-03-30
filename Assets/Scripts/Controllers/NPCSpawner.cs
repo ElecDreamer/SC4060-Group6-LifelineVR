@@ -8,6 +8,7 @@ public class NPCSpawner : MonoBehaviour
     {
         public PathFollower prefab;
         public int spawnCount;
+        public PathSegment[] pathSegments;
     }
 
     public List<NPCSpawnData> npcSpawnDataList;
@@ -35,15 +36,17 @@ public class NPCSpawner : MonoBehaviour
         {
             for (int i = 0; i < spawnData.spawnCount; i++)
             {
-                SpawnNpc(spawnData.prefab);
+                SpawnNpc(spawnData.prefab, spawnData.pathSegments);
             }
         }
     }
 
-    private void SpawnNpc(PathFollower prefab)
+    private void SpawnNpc(PathFollower prefab, PathSegment[] pathSegments = null)
     {
+        // Randomly select a path segment from the provided or cached segments
         PathFollower npc = Instantiate(prefab);
-        PathSegment randomSegment = cachedPathSegments[Random.Range(0, cachedPathSegments.Length)];
+        PathSegment[] pathSegmentsToUse = (pathSegments == null || pathSegments.Length == 0) ? cachedPathSegments : pathSegments;
+        PathSegment randomSegment = pathSegmentsToUse[Random.Range(0, pathSegmentsToUse.Length)];
         npc.GetComponent<VirtualTransform>().position = randomSegment.GetComponent<VirtualTransform>().position;
         npc.currentPathSegment = randomSegment;
     }

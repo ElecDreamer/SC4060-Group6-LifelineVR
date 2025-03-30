@@ -1,0 +1,110 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &8292670562638512866
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 341579214812272722, guid: ad2854110a288404d9e09c21d8faeda0, type: 3}
+      propertyPath: m_Name
+      value: Oxygen Ball NPC
+      objectReference: {fileID: 0}
+    - target: {fileID: 1150204409162662632, guid: ad2854110a288404d9e09c21d8faeda0, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1150204409162662632, guid: ad2854110a288404d9e09c21d8faeda0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -22.782972
+      objectReference: {fileID: 0}
+    - target: {fileID: 1150204409162662632, guid: ad2854110a288404d9e09c21d8faeda0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1150204409162662632, guid: ad2854110a288404d9e09c21d8faeda0, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.85791874
+      objectReference: {fileID: 0}
+    - target: {fileID: 1150204409162662632, guid: ad2854110a288404d9e09c21d8faeda0, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1150204409162662632, guid: ad2854110a288404d9e09c21d8faeda0, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1150204409162662632, guid: ad2854110a288404d9e09c21d8faeda0, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1150204409162662632, guid: ad2854110a288404d9e09c21d8faeda0, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1150204409162662632, guid: ad2854110a288404d9e09c21d8faeda0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1150204409162662632, guid: ad2854110a288404d9e09c21d8faeda0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1150204409162662632, guid: ad2854110a288404d9e09c21d8faeda0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ad2854110a288404d9e09c21d8faeda0, type: 3}
+--- !u!1 &8622409272524970672 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 341579214812272722, guid: ad2854110a288404d9e09c21d8faeda0, type: 3}
+  m_PrefabInstance: {fileID: 8292670562638512866}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1144754160533165360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8622409272524970672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 776c008c03185433c8b7647b5ebb90f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  position: {x: 0, y: 0, z: 0}
+  rotation: {x: 0, y: 0, z: 0, w: 0}
+  scale: {x: 0, y: 0, z: 0}
+--- !u!114 &2108144622395744356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8622409272524970672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 633bb21a35116444dafe1c96e6092f82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  angularAcceleration: 1
+--- !u!114 &8186873333101739387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8622409272524970672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71bdab3da477d4d8ea81a86faf292517, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentPathSegment: {fileID: 0}
+  brownianMotionAcceleration: 2
+  pushAcceleration: 0
+  pullAcceleration: 5
+  maxSpeed: 2
+  radius: 0.65

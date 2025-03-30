@@ -65,15 +65,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -3272106112100924687, guid: d944453cad469784c8b10ce8baec5e70, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.64
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -3272106112100924687, guid: d944453cad469784c8b10ce8baec5e70, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.03
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -3272106112100924687, guid: d944453cad469784c8b10ce8baec5e70, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.39
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -3272106112100924687, guid: d944453cad469784c8b10ce8baec5e70, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -3272106112100924687, guid: d944453cad469784c8b10ce8baec5e70, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -3272106112100924687, guid: d944453cad469784c8b10ce8baec5e70, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -2571118854743697038, guid: d944453cad469784c8b10ce8baec5e70, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -81,7 +93,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 6fa2bfc7361bcc044a502aba0389233d, type: 2}
     - target: {fileID: 919132149155446097, guid: d944453cad469784c8b10ce8baec5e70, type: 3}
       propertyPath: m_Name
-      value: Oxygen ball
+      value: Oxygen Ball
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d944453cad469784c8b10ce8baec5e70, type: 3}
