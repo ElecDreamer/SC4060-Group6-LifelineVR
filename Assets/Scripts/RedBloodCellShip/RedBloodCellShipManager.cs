@@ -74,7 +74,7 @@ public class RedBloodCellShipManager : MonoBehaviour
 
     Color forwardTextActiveColor = new Color(0.9176471f, 0.1098039f, 0.5372549f, 1);
     Color forwardTextDefaultColor = new Color(0.9333333f, 0.9333333f, 0.9333333f, 1);
-    private float GetForwardSpeedFromType(FORWARD_SPEED_TYPE type)
+    public float GetForwardSpeedFromType(FORWARD_SPEED_TYPE type)
     {
         return type switch
         {
@@ -166,10 +166,10 @@ public class RedBloodCellShipManager : MonoBehaviour
     void GetCurrentFillO2StorageLevel()
     {
         int currentO2InStorage = GlobalVariables.Instance.oxygenPlayerStorage.numberOfOxygen;
-        float fillAmount = (float) currentO2InStorage / (float) MAX_O2_STORAGE_LEVEL;
+        float fillAmount = (float)currentO2InStorage / (float)MAX_O2_STORAGE_LEVEL;
         maskO2StorageLevel.fillAmount = fillAmount;
     }
-    
+
     public void AddOxygenToStorage()
     {
         if (!IsPlayerInLungsZone()) return; // check if player is in lungs zone

@@ -10,6 +10,7 @@ public class RedBloodCellPlayer : MonoBehaviour
     private VirtualCamera virtualCamera;
 
     public PathSegment currentPathSegment;
+    public RedBloodCellShipManager shipManager;
 
     [Range(0, 1)]
     public float forwardAcceleration;
@@ -61,6 +62,7 @@ public class RedBloodCellPlayer : MonoBehaviour
 
     private void UpdateVelocity()
     {
+        UpdateFromPlayerControls();
         ApplyMovementForces();
         ApplyFriction();
         RestrictWithinPath();
@@ -78,6 +80,17 @@ public class RedBloodCellPlayer : MonoBehaviour
     {
         HandlePathConnectivity();
         SmoothPathSegmentForward();
+    }
+
+    private void UpdateFromPlayerControls()
+    {
+        if (shipManager == null)
+        {
+            return;
+        }
+        forwardAcceleration = shipManager.GetForwardSpeedFromType(shipManager.currentForwardSpeedType);
+        yaw = (shipManager.xrSteeringWheelYaw.value - 0.5f) * 2f;
+        pitch = (shipManager.xrSteeringWheelPitch.value - 0.5f) * 2f;
     }
 
     private void ApplyMovementForces()
