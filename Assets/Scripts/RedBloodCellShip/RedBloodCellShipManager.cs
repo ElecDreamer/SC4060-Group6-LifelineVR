@@ -32,14 +32,15 @@ public class RedBloodCellShipManager : MonoBehaviour
         currentSpeed = GetForwardSpeedFromType(currentForwardSpeedType);
         redBloodCellShip.transform.Translate(currentSpeed * Time.deltaTime * -Vector3.forward);
 
-        float yaw = (xrSteeringWheelYaw.value - 0.5f) * 2f * MAX_YAW_DEGREE;    // -MAX_YAW to +MAX_YAW
+        // Note: Yaw and Pitch done by the RedBloodCellPlayer class
+        /*float yaw = (xrSteeringWheelYaw.value - 0.5f) * 2f * MAX_YAW_DEGREE;    // -MAX_YAW to +MAX_YAW
         float pitch = (xrSteeringWheelPitch.value - 0.5f) * 2f * MAX_PITCH_DEGREE;  // -MAX_PITCH to +MAX_PITCH
 
         // Apply yaw and pitch as offset from initial rotation
         Quaternion yawRotation = Quaternion.AngleAxis(yaw, Vector3.up);
         Quaternion pitchRotation = Quaternion.AngleAxis(pitch, Vector3.right);
 
-        redBloodCellShip.transform.rotation = initialRotation * yawRotation * pitchRotation;
+        redBloodCellShip.transform.rotation = initialRotation * yawRotation * pitchRotation;*/
 
         // O2 Storage Level
         GetCurrentFillO2StorageLevel();
@@ -82,9 +83,9 @@ public class RedBloodCellShipManager : MonoBehaviour
         return type switch
         {
             FORWARD_SPEED_TYPE.STOP => 0f,
-            FORWARD_SPEED_TYPE.SLOW => 1f,
-            FORWARD_SPEED_TYPE.MEDIUM => 2f,
-            FORWARD_SPEED_TYPE.FAST => 3f,
+            FORWARD_SPEED_TYPE.SLOW => 0.1f,
+            FORWARD_SPEED_TYPE.MEDIUM => 0.2f,
+            FORWARD_SPEED_TYPE.FAST => 0.3f,
             _ => 0f,
         };
     }
