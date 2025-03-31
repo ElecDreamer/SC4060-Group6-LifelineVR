@@ -4,18 +4,6 @@ using UnityEngine;
 
 namespace DataEntities
 {
-    public class Oxygen
-    {
-        public float amount;
-
-        private readonly static float DEFAULT_AMOUNT = 1;
-
-        public Oxygen()
-        {
-            amount = DEFAULT_AMOUNT;
-        }
-    }
-
     public class OxygenPlayerStorage : MonoBehaviour
     {
         public readonly static int MAXIMUM = 100;

@@ -55,7 +55,7 @@ public class GameOverController : MonoBehaviour
 
     private bool IsGameOver()
     {
-        if (GlobalVariables.Instance.redBloodCellLevel.level <= 0f)
+        if (GlobalVariables.Instance.gameDifficulty == Enums.GameDifficulty.Hard && GlobalVariables.Instance.redBloodCellLevel.level <= 0f)
         {
             Debug.Log("GAME OVER! Red Blood Cell Level has reached 0!");
             gameOverMessage = "Red Blood Cell Level has reached 0!";

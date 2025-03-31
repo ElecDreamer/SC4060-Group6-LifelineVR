@@ -17,10 +17,4 @@ public class HumanModeSceneController : MonoBehaviour
 
         questHandControllersMenuController.OpenQuestHandControllersMenu();
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }
