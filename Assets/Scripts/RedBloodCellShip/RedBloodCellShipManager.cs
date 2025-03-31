@@ -20,6 +20,9 @@ public class RedBloodCellShipManager : MonoBehaviour
         // Initialise starting forward speed
         currentForwardSpeedType = FORWARD_SPEED_TYPE.STOP;
         forwardSpeedText_Stop.color = forwardTextActiveColor;
+
+        // Re-instantiate collected oxygen balls visuals
+        RebuildCollectedOxygenBallVisuals();
     }
 
     // Update is called once per frame
@@ -168,6 +171,33 @@ public class RedBloodCellShipManager : MonoBehaviour
         int currentO2InStorage = GlobalVariables.Instance.oxygenPlayerStorage.numberOfOxygen;
         float fillAmount = (float)currentO2InStorage / (float)MAX_O2_STORAGE_LEVEL;
         maskO2StorageLevel.fillAmount = fillAmount;
+    }
+
+    private void RebuildCollectedOxygenBallVisuals()
+    {
+        // Clear old visuals (when switching scenes)
+        foreach (var ball in collectedOxygenBalls)
+        {
+            if (ball != null) Destroy(ball);
+        }
+        collectedOxygenBalls.Clear();
+
+        int count = GlobalVariables.Instance.oxygenPlayerStorage.numberOfOxygen / AMOUNT_OF_O2_PER_BALL;
+
+        for (int i = 0; i < count; i++)
+        {
+            GameObject spawnedOxygenBall = Instantiate(oxygenBall);
+
+            float spacing = 0.1f;
+            Vector3 offset = i * spacing * Vector3.back;
+
+            spawnedOxygenBall.transform.position = oxygenBallSpawnPoint.position + offset;
+            spawnedOxygenBall.transform.localScale = Vector3.one * 0.025f;
+
+            spawnedOxygenBall.transform.SetParent(transform, worldPositionStays: true);
+
+            collectedOxygenBalls.Add(spawnedOxygenBall);
+        }
     }
 
     public void AddOxygenToStorage()
