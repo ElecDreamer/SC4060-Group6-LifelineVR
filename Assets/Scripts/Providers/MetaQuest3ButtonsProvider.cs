@@ -121,18 +121,18 @@ public class MetaQuest3ButtonsProvider: MonoBehaviour
     void RightButtonBWasPressed(InputAction.CallbackContext context)
     {
         Debug.Log("Right Button B pressed");
-        if (GlobalVariables.Instance.gameOver) return;
+        if (GlobalVariables.Instance.gameOver || GlobalVariables.Instance.gameMode == Enums.GameMode.RedBloodCell) return;
 
         if (!o2AndRBCLevelsController.O2AndRBCLevelsBarPanel.activeSelf)
         {
-            Debug.Log("Open Fridge");
+            Debug.Log("Open O2 and RBC Levels Panel");
             o2AndRBCLevelsController.Display();
             
             // Note: Don't need to close other menus
         }
         else
         {
-            Debug.Log("Close Fridge");
+            Debug.Log("Close O2 and RBC Levels Panel");
             o2AndRBCLevelsController.Hide();
         }
     }
@@ -140,7 +140,7 @@ public class MetaQuest3ButtonsProvider: MonoBehaviour
     void RightButtonBWasReleased(InputAction.CallbackContext context)
     {
         Debug.Log("Right Button B released");
-        if (GlobalVariables.Instance.gameOver) return;
+        if (GlobalVariables.Instance.gameOver || GlobalVariables.Instance.gameMode == Enums.GameMode.RedBloodCell) return;
     }
 
     /**
