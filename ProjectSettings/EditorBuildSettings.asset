@@ -5,30 +5,33 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 55daccc09a3b69647bbab145b54a3ab3
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/Scenes/GameScene/MainMenu.unity
     guid: 1ff001ac0a026064ea5fc606abfdbb3a
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/GameScene/Modals/GameModals.unity
     guid: 27f7902fde913d4488e266c85cafc932
   - enabled: 1
     path: Assets/Scenes/GameScene/HumanModeScene.unity
     guid: 702cbad2f2094db4ca9f741677e3f8b9
-  - enabled: 1
-    path: Assets/Scenes/GameScene/RedBloodCellModeScene.unity
-    guid: dc6028c520972f44c8113fec0d704afb
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
-  - enabled: 1
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 0
     path: Assets/Scenes/Test Scenes/TestScene.unity
     guid: 0fe5a6c298d3b6244b4145ad4309896c
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Test Scenes/RedBloodCellShipTestScene.unity
     guid: 3cb921d071a2a9440a12828f184b630c
+  - enabled: 1
+    path: Assets/Scenes/GameScene/RedBloodCellModeScene.unity
+    guid: 06fe6d087639c49d2a2913757ca24e42
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: bfa1182bd221b4ca89619141f66f1260, type: 2}
     Unity.XR.WindowsMR.Settings: {fileID: 11400000, guid: dc5a169419fa04987b057f65238cf3ba, type: 2}
