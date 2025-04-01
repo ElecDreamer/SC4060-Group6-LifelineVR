@@ -14,8 +14,10 @@ public class RedBloodCellPlayer : MonoBehaviour
 
     [Range(0, 1)]
     public float forwardAcceleration;
+
     [Range(-1, 1)]
     public float pitch;
+
     [Range(-1, 1)]
     public float yaw;
     public float radius = 1f;
@@ -29,6 +31,7 @@ public class RedBloodCellPlayer : MonoBehaviour
     public float smoothCurrentPathSegmentForwardSpeed = 0.1f;
     public float nudgeRotationToFaceEndOfPathSpeed = 5f;
     public float nudgeRotationToFaceEndOfPathDeadZone = 2f;
+    public float distanceBeforeEndToSwitch = 2f;
 
     public void Start()
     {
@@ -50,7 +53,9 @@ public class RedBloodCellPlayer : MonoBehaviour
 
     private void InitializeSmoothedPathSegmentForward()
     {
-        smoothedCurrentPathSegmentForward = currentPathSegment.GetComponent<VirtualTransform>().Forward;
+        smoothedCurrentPathSegmentForward = currentPathSegment
+            .GetComponent<VirtualTransform>()
+            .Forward;
     }
 
     public void FixedUpdate()
@@ -88,21 +93,25 @@ public class RedBloodCellPlayer : MonoBehaviour
         {
             return;
         }
-        forwardAcceleration = shipManager.GetForwardSpeedFromType(shipManager.currentForwardSpeedType);
+        forwardAcceleration = shipManager.GetForwardSpeedFromType(
+            shipManager.currentForwardSpeedType
+        );
         yaw = (shipManager.xrSteeringWheelYaw.value - 0.5f) * 2f;
         pitch = (shipManager.xrSteeringWheelPitch.value - 0.5f) * 2f;
     }
 
     private void ApplyMovementForces()
     {
-        velocity += rotation * Vector3.forward * forwardAcceleration * acceleration * Time.fixedDeltaTime;
+        velocity +=
+            rotation * Vector3.forward * forwardAcceleration * acceleration * Time.fixedDeltaTime;
         angularVelocity += new Vector3(-pitch, yaw, 0) * angularAcceleration * Time.fixedDeltaTime;
     }
 
     private void ApplyFriction()
     {
         Vector3 newVelocity = velocity - velocity * friction * Time.fixedDeltaTime;
-        Vector3 newAngularVelocity = angularVelocity - angularVelocity * angularFriction * Time.fixedDeltaTime;
+        Vector3 newAngularVelocity =
+            angularVelocity - angularVelocity * angularFriction * Time.fixedDeltaTime;
 
         if (Vector3.Dot(velocity, newVelocity) < 0)
         {
@@ -152,7 +161,10 @@ public class RedBloodCellPlayer : MonoBehaviour
 
     private void NudgeRotationToFaceEndOfPath()
     {
-        Vector3 endOfPath = currentPathSegment.GetComponent<VirtualTransform>().position + currentPathSegment.GetComponent<VirtualTransform>().Forward * currentPathSegment.distance;
+        Vector3 endOfPath =
+            currentPathSegment.GetComponent<VirtualTransform>().position
+            + currentPathSegment.GetComponent<VirtualTransform>().Forward
+                * currentPathSegment.distance;
         Vector3 toEndOfPath = endOfPath - position;
         if (toEndOfPath.magnitude < nudgeRotationToFaceEndOfPathDeadZone)
         {
@@ -160,7 +172,13 @@ public class RedBloodCellPlayer : MonoBehaviour
         }
         Quaternion targetRotation = Quaternion.LookRotation(toEndOfPath, rotation * Vector3.up);
         float angleDifference = Quaternion.Angle(rotation, targetRotation);
-        rotation = Quaternion.RotateTowards(rotation, targetRotation, Mathf.Clamp01(angleDifference / 180f) * nudgeRotationToFaceEndOfPathSpeed * Time.fixedDeltaTime);
+        rotation = Quaternion.RotateTowards(
+            rotation,
+            targetRotation,
+            Mathf.Clamp01(angleDifference / 180f)
+                * nudgeRotationToFaceEndOfPathSpeed
+                * Time.fixedDeltaTime
+        );
     }
 
     private void RestrictRotationToForward()
@@ -171,7 +189,11 @@ public class RedBloodCellPlayer : MonoBehaviour
         if (angleDifference > forwardMaxAngle)
         {
             Quaternion targetRotation = Quaternion.LookRotation(pathForward, rotation * Vector3.up);
-            rotation = Quaternion.RotateTowards(rotation, targetRotation, angleDifference - forwardMaxAngle);
+            rotation = Quaternion.RotateTowards(
+                rotation,
+                targetRotation,
+                angleDifference - forwardMaxAngle
+            );
         }
     }
 
@@ -183,7 +205,13 @@ public class RedBloodCellPlayer : MonoBehaviour
 
     private void HandlePathConnectivity()
     {
-        if (currentPathSegment.IsBeyondPathEnd(position))
+        if (
+            currentPathSegment.IsBeyondPathEnd(
+                position
+                    + distanceBeforeEndToSwitch
+                        * currentPathSegment.GetComponent<VirtualTransform>().Forward
+            )
+        )
         {
             SwitchToNextPathSegment();
         }
@@ -195,7 +223,10 @@ public class RedBloodCellPlayer : MonoBehaviour
         if (nextSegments != null && nextSegments.Length > 0)
         {
             PathSegment bestSegment = nextSegments[0];
-            float bestDotProduct = Vector3.Dot(rotation * Vector3.forward, bestSegment.GetComponent<VirtualTransform>().Forward);
+            float bestDotProduct = Vector3.Dot(
+                rotation * Vector3.forward,
+                bestSegment.GetComponent<VirtualTransform>().Forward
+            );
 
             foreach (PathSegment segment in nextSegments)
             {
@@ -216,7 +247,11 @@ public class RedBloodCellPlayer : MonoBehaviour
     private void SmoothPathSegmentForward()
     {
         Vector3 pathForward = currentPathSegment.GetComponent<VirtualTransform>().Forward;
-        smoothedCurrentPathSegmentForward = Vector3.Slerp(smoothedCurrentPathSegmentForward, pathForward, Time.fixedDeltaTime * smoothCurrentPathSegmentForwardSpeed);
+        smoothedCurrentPathSegmentForward = Vector3.Slerp(
+            smoothedCurrentPathSegmentForward,
+            pathForward,
+            Time.fixedDeltaTime * smoothCurrentPathSegmentForwardSpeed
+        );
     }
 
     public void Update()
