@@ -7,6 +7,7 @@ public class RedBloodCellPlayer : MonoBehaviour
     private Vector3 position;
     private Quaternion rotation;
     private Vector3 smoothedCurrentPathSegmentForward;
+    private Vector3 smoothedCurrentPathSegmentForwardVelocity;
     private VirtualCamera virtualCamera;
 
     public PathSegment currentPathSegment;
@@ -28,10 +29,11 @@ public class RedBloodCellPlayer : MonoBehaviour
     public float maxSpeed = 10f;
     public float maxAngularSpeed = 360f;
     public float forwardMaxAngle = 45f;
-    public float smoothCurrentPathSegmentForwardSpeed = 0.1f;
+    public float smoothCurrentPathSegmentForwardTime = 0.5f;
     public float nudgeRotationToFaceEndOfPathSpeed = 5f;
     public float nudgeRotationToFaceEndOfPathDeadZone = 2f;
     public float distanceBeforeEndToSwitch = 2f;
+    public bool dontSwitchEarlyForForks = true;
 
     public void Start()
     {
@@ -69,16 +71,16 @@ public class RedBloodCellPlayer : MonoBehaviour
     {
         UpdateFromPlayerControls();
         ApplyMovementForces();
-        ApplyFriction();
+        NudgeRotationToFaceEndOfPath();
         RestrictWithinPath();
+        ApplyFriction();
         LimitVelocity();
     }
 
     private void UpdatePositionAndRotation()
     {
-        IntegrateVelocity();
-        NudgeRotationToFaceEndOfPath();
         RestrictRotationToForward();
+        IntegrateVelocity();
     }
 
     private void UpdateAfterMovement()
@@ -107,23 +109,37 @@ public class RedBloodCellPlayer : MonoBehaviour
         angularVelocity += new Vector3(-pitch, yaw, 0) * angularAcceleration * Time.fixedDeltaTime;
     }
 
-    private void ApplyFriction()
+    private void NudgeRotationToFaceEndOfPath()
     {
-        Vector3 newVelocity = velocity - velocity * friction * Time.fixedDeltaTime;
-        Vector3 newAngularVelocity =
-            angularVelocity - angularVelocity * angularFriction * Time.fixedDeltaTime;
+        Vector3 endOfPath =
+            currentPathSegment.GetComponent<VirtualTransform>().position
+            + smoothedCurrentPathSegmentForward * currentPathSegment.distance;
 
-        if (Vector3.Dot(velocity, newVelocity) < 0)
+        Vector3 toEndOfPath = endOfPath - position;
+        if (toEndOfPath.magnitude < nudgeRotationToFaceEndOfPathDeadZone)
         {
-            newVelocity = Vector3.zero;
-        }
-        if (Vector3.Dot(angularVelocity, newAngularVelocity) < 0)
-        {
-            newAngularVelocity = Vector3.zero;
+            return;
         }
 
-        velocity = newVelocity;
-        angularVelocity = newAngularVelocity;
+        Quaternion targetRotation = Quaternion.LookRotation(toEndOfPath, rotation * Vector3.up);
+        Quaternion delta = Quaternion.Inverse(rotation) * targetRotation;
+        Vector3 deltaEuler = delta.eulerAngles;
+
+        deltaEuler.x = Mathf.DeltaAngle(0, deltaEuler.x);
+        deltaEuler.y = Mathf.DeltaAngle(0, deltaEuler.y);
+        deltaEuler.z = Mathf.DeltaAngle(0, deltaEuler.z);
+
+        float angleMagnitude = deltaEuler.magnitude;
+        if (angleMagnitude < 1e-3f)
+        {
+            return;
+        }
+
+        float angleDifferenceFactor = Mathf.Clamp01(angleMagnitude / 180f);
+        Vector3 deltaEulerNormalized = deltaEuler.normalized;
+
+        float angularAccelerationMagnitude = angleDifferenceFactor * nudgeRotationToFaceEndOfPathSpeed;
+        angularVelocity += deltaEulerNormalized * angularAccelerationMagnitude * Time.fixedDeltaTime;
     }
 
     private void RestrictWithinPath()
@@ -146,6 +162,25 @@ public class RedBloodCellPlayer : MonoBehaviour
         }
     }
 
+    private void ApplyFriction()
+    {
+        Vector3 newVelocity = velocity - velocity * friction * Time.fixedDeltaTime;
+        Vector3 newAngularVelocity =
+            angularVelocity - angularVelocity * angularFriction * Time.fixedDeltaTime;
+
+        if (Vector3.Dot(velocity, newVelocity) < 0)
+        {
+            newVelocity = Vector3.zero;
+        }
+        if (Vector3.Dot(angularVelocity, newAngularVelocity) < 0)
+        {
+            newAngularVelocity = Vector3.zero;
+        }
+
+        velocity = newVelocity;
+        angularVelocity = newAngularVelocity;
+    }
+
     private Vector3 CalculateClosestPointOnPath(Vector3 pathCenter, Vector3 toPosition)
     {
         Vector3 pathDirection = currentPathSegment.GetComponent<VirtualTransform>().Forward;
@@ -157,28 +192,6 @@ public class RedBloodCellPlayer : MonoBehaviour
     {
         velocity = Vector3.ClampMagnitude(velocity, maxSpeed);
         angularVelocity = Vector3.ClampMagnitude(angularVelocity, maxAngularSpeed);
-    }
-
-    private void NudgeRotationToFaceEndOfPath()
-    {
-        Vector3 endOfPath =
-            currentPathSegment.GetComponent<VirtualTransform>().position
-            + currentPathSegment.GetComponent<VirtualTransform>().Forward
-                * currentPathSegment.distance;
-        Vector3 toEndOfPath = endOfPath - position;
-        if (toEndOfPath.magnitude < nudgeRotationToFaceEndOfPathDeadZone)
-        {
-            return;
-        }
-        Quaternion targetRotation = Quaternion.LookRotation(toEndOfPath, rotation * Vector3.up);
-        float angleDifference = Quaternion.Angle(rotation, targetRotation);
-        rotation = Quaternion.RotateTowards(
-            rotation,
-            targetRotation,
-            Mathf.Clamp01(angleDifference / 180f)
-                * nudgeRotationToFaceEndOfPathSpeed
-                * Time.fixedDeltaTime
-        );
     }
 
     private void RestrictRotationToForward()
@@ -205,13 +218,14 @@ public class RedBloodCellPlayer : MonoBehaviour
 
     private void HandlePathConnectivity()
     {
-        if (
-            currentPathSegment.IsBeyondPathEnd(
-                position
-                    + distanceBeforeEndToSwitch
-                        * currentPathSegment.GetComponent<VirtualTransform>().Forward
+        bool shouldSwitch = currentPathSegment.nextSegments.Length switch
+        {
+            > 1 when dontSwitchEarlyForForks => currentPathSegment.IsBeyondPathEnd(position),
+            _ => currentPathSegment.IsBeyondPathEnd(
+            position + distanceBeforeEndToSwitch * currentPathSegment.GetComponent<VirtualTransform>().Forward
             )
-        )
+        };
+        if (shouldSwitch)
         {
             SwitchToNextPathSegment();
         }
@@ -247,10 +261,13 @@ public class RedBloodCellPlayer : MonoBehaviour
     private void SmoothPathSegmentForward()
     {
         Vector3 pathForward = currentPathSegment.GetComponent<VirtualTransform>().Forward;
-        smoothedCurrentPathSegmentForward = Vector3.Slerp(
+        smoothedCurrentPathSegmentForward = Vector3.SmoothDamp(
             smoothedCurrentPathSegmentForward,
             pathForward,
-            Time.fixedDeltaTime * smoothCurrentPathSegmentForwardSpeed
+            ref smoothedCurrentPathSegmentForwardVelocity,
+            smoothCurrentPathSegmentForwardTime,
+            Mathf.Infinity,
+            Time.fixedDeltaTime
         );
     }
 
