@@ -28,6 +28,7 @@ public class PathCreator : MonoBehaviour
     public PathSegment endSegment;
 }
 
+#if UNITY_EDITOR
 [CustomEditor(typeof(PathCreator))]
 public class PathCreatorEditor : Editor
 {
@@ -198,3 +199,4 @@ public class PathCreatorEditor : Editor
         }
     }
 }
+#endif

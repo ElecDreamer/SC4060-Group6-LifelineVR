@@ -34,13 +34,13 @@ public class PlayerRBCModeZoneTracker : MonoBehaviour
                 currentZoneObject = zone;
                 break;
             }
-            Debug.Log("Current zone: " + currentZone);
+            // Debug.Log("Current zone: " + currentZone);
         }
         else
         {
             currentZone = "";
             currentZoneObject = null;
-            Debug.Log("No zones detected.");
+            // Debug.Log("No zones detected.");
         }
     }
 }
