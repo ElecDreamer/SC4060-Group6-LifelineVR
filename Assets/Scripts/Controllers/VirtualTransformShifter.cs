@@ -67,7 +67,10 @@ public class VirtualTransformShifter : MonoBehaviour
                 inverseScale
             );
             vt.transform.rotation = inverseRotation * vt.rotation;
-            vt.transform.localScale = Vector3.Scale(vt.scale, inverseScale);
+            if (!vt.isChildTransform)
+            {
+                vt.transform.localScale = Vector3.Scale(vt.scale, inverseScale);
+            }
         }
     }
 }

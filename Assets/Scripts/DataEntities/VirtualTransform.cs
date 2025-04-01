@@ -11,6 +11,9 @@ public class VirtualTransform : MonoBehaviour
     [HideInInspector]
     public Vector3 scale;
 
+    [HideInInspector]
+    public bool isChildTransform;
+
     public Vector3 Forward
     {
         get { return rotation * Vector3.forward; }
@@ -18,11 +21,19 @@ public class VirtualTransform : MonoBehaviour
 
     public void Awake()
     {
-        if (GetComponentInParent<VirtualTransform>() != null)
+        if (
+            transform.parent != null
+            && transform.parent.GetComponentInParent<VirtualTransform>() != null
+        )
         {
             Debug.LogWarning(
                 "This VirtualTransform is a child of another VirtualTransform. Setting the child's VirtualTransform's positions, rotations or scale is not yet tested."
             );
+            isChildTransform = true;
+        }
+        else
+        {
+            isChildTransform = false;
         }
 
         position = transform.position;
