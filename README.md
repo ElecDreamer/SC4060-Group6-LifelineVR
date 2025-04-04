@@ -1,45 +1,82 @@
 # LifelineVR
 
-![banner](public/2-worlds-1-goal-banner.png)
+[🕹️ APK](_submissions/LifeLineVR.apk) | [Report](_submissions/SC4060%20Final%20Project%20Report%20-%20Group%206.pdf) | [Slides](_submissions/Presentation%20Slides%20-%20Group%206.pptx) | [🎥 Game Trailer Video](https://youtu.be/-jsXb65ain0)
 
-[APK](_submissions/LifeLineVR.apk) | [Report](_submissions/SC4060%20Final%20Project%20Report%20-%20Group%206.pdf) | [Slides](_submissions/Presentation%20Slides%20-%20Group%206.pptx) | [Game Trailer Video](https://youtu.be/-jsXb65ain0)
+[![banner](public/2-worlds-1-goal-banner.png)](https://youtu.be/-jsXb65ain0)
 
-This project is built for Nanyang Technological University's SC4060 Virtual and Augmented Reality Module (AY24/25 S2).
+LifeLine VR is an immersive educational VR experience designed to highlight the importance of red blood cells and constant blood donation through interactive, gamified storytelling.
 
-LifeLineVR is a VR app that utilizes the immersive capabilities of VR to meet the educational goals as set out below while providing a fun and immersive experience:
+Built using Unity and designed for Meta Quest 3, this project was developed by Group 6 for Nanyang Technological University's SC4060 Virtual and Augmented Reality Module (AY24/25 S2).
 
-1. Deepen Understanding of Importance of Red Blood Cells in the body
-2. Raise Awareness of Importance of Constant Blood Donation
+## 🧠 Project Motivation
 
-## Game Trailer Video
+- **Red Blood Cells:** Vital for oxygen transport and energy production. Yet, their microscopic processes are hard to visualize.
+- **Blood Donation Awareness:** Many are unaware of the urgent, ongoing need for blood due to storage limitations and shortages.
 
-[![Watch the Trailer](https://img.youtube.com/vi/-jsXb65ain0/0.jpg)](https://youtu.be/-jsXb65ain0)
+LifeLine VR aims to:
 
-## Story Line
+- Deepen understanding of red blood cells' role.
+- Raise awareness and empathy toward blood donation.
 
-Due to a twist of fate, you developed chronic "Anemia", a condition that results in the amount of Red Blood Cells in your body to decrease over time. This leads to reduced oxygen delivery to various parts of your body, causing you to feel fatigue, weakness, and shortness of breath. You have to forgo exercising and your body has started to deteriorate with this medical condition.
+## 🎮 Gameplay Overview
 
-As a determined person that leads an active lifestyle, you CANNOT forgo exercising and just let your body die! So, you prayed to the Red Blood Cells God, "Red Blood Cells God, please stop my Anemia condition... I will do anything in order to survive and keep exercising... Please... Pleas..."
+### 🌍 Dual Game Modes
 
-Bzz... Bzzzzz.... Congratulations! The Red Blood Cell God has decided to grant you a special power – The power to transform from a "Human" into a "Red Blood Cell"!
+- **Human Mode:** Navigate a football stadium, perform physical activities, and request blood donations.
+- **Red Blood Cell Mode:** Shrink to a cellular level and navigate the bloodstream in a ship to transport oxygen.
 
-With this special power, you can assist your body's Red Blood Cells (NPCs) in transporting oxygen from the lungs to various parts of the body to keep the body alive! As a special Red Blood Cell, you can transport more oxygen than Red Blood Cells NPCs and keep the body alive with your efforts!
-Your Goal? Use your new powers to keep your body alive while engaging in various human physical exercises!
+### 🕹️ Game Mechanics
 
-### [Scaling Space] The 2 Game Modes – Human Mode & Red Blood Cell Mode
+- **Oxygen & Red Blood Cell Levels:** Track and manage them to stay alive.
+- **Activity Simulation:** Walking, running, and lifting dumbbells dynamically impact oxygen demand.
+- **Time Scaling:** Each game minute equals 10 real-world days. Red blood cells decrease gradually over time.
+- **Blood Donation System:** NPCs offer blood packs based on randomized probability.
+- **Collect/Deposit Oxygen:** Players collect oxygen in the lungs and deliver it to body parts.
 
-The LifeLine VR sets the scene in 2 different game modes – Human mode, and Red Blood Cell mode. Both modes are in first person perspective and have different scales – Human mode in the human world scale while the Red Blood Cell mode is in the microscopic scale. The player can switch between the Human mode and the Red Blood Cell mode anytime they want as they play the game.
+### 💀 Game Over Conditions
 
-### [Scaling Time] Decrease of Red Blood Cells Over Time
+- Any vital organ’s oxygen level or red blood cell level reaches zero.
 
-As the player plays the game in either game modes, the percentage of red blood cells in the body will decrease gradually, with major spikes in the amount decreased every 14 mins. Each playtime minute equals 10 real-world days. Players will need to source for blood packs to maintain a safe level of red blood cells in the body.
+## 🔧 Key Features
 
-### Player’s Goal
+- Immersive 3D environments (football stadium & bloodstream).
+- Visual alerts and feedback for vital level changes.
+- Red Blood Cell ship with pitch/yaw controls, speed panel, and auto-steering.
+- Fridge inventory system for perishable blood packs.
+- Adjustable game difficulty and mode switching.
 
-The player’s goal in the game is to survive while doing different activities in the Human mode that affects the body’s oxygen demand, and switching to the Red Blood Cell mode to increase the oxygen levels in the various body parts by transporting oxygen themselves. Ultimately, the player should keep their red blood cells levels and oxygen levels above 0 throughout the game.
+## 🛠️ Tech Stack
+
+- **Engine:** Unity 2021.3.18f1
+- **Language:** C#
+- **VR Toolkit:** XR Interaction Toolkit
+- **Version Control:** Git & GitHub
+- **UI Design:** Figma
+- **3D Modeling:** Blender
+- **VR Hardware:** Meta Quest 3
+
+## 📦 Assets & Libraries
+
+- **Custom Models:** Blood cells, blood vessel paths, oxygen balls, blood packs.
+- **Libraries:** FloatGrids for UI
+- **External Assets:**
+  - [Stadium](https://assetstore.unity.com/packages/3d/environments/urban/grand-stadium-v2-0-254584)
+  - [NPCs](https://assetstore.unity.com/packages/3d/characters/humanoids/fantasy/free-low-poly-human-rpg-character-219979)
+  - [Steering Wheel](https://sketchfab.com/3d-models/steering-wheel-2-e81c3a62808b46998b2e35124028a614)
+  - [Icons8](https://icons8.com/)
+
+## 🌟 Future Improvements
+
+- More diverse activities (sports, mini-games).
+- Multiplayer mode for collaborative oxygen delivery.
+- Enhanced NPC interaction with dialogues and emotional feedback.
+- Dynamic narrative extension (e.g., treatment and recovery).
+- Ambient music and immersive sound effects.
 
 ## Contributors
 
 <a href='https://github.com/xJQx' title='Jing Qiang'> <img src='https://avatars.githubusercontent.com/xJQx' height='75' width='75'/></a>
 <a href='https://github.com/limdingwen' title='Ding Wen'> <img src='https://avatars.githubusercontent.com/limdingwen' height='75' width='75'/></a>
 <a href='https://github.com/ElecDreamer' title='Russell'> <img src='https://avatars.githubusercontent.com/ElecDreamer' height='75' width='75'/></a>
+
+> “LifeLine VR isn't just a game—it's a journey into the lifeblood of survival.”
